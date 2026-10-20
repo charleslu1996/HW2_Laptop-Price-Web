@@ -1,0 +1,1745 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Laptop Price Predictor | Multiple Linear Regression & Feature Performance</title>
+  <meta name="description"
+    content="Interactive Machine Learning Laptop Price Predictor using Multiple Linear Regression, Forward Feature Selection, and CRISP-DM methodology.">
+  
+  <!-- Modern Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+  
+  <!-- Chart.js for Data Visualizations -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    :root {
+      --bg-primary: #0a0f1d;
+      --bg-secondary: #111827;
+      --card-bg: rgba(17, 24, 39, 0.78);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --card-hover-border: rgba(99, 102, 241, 0.45);
+      --input-bg: rgba(15, 23, 42, 0.85);
+      --input-border: rgba(255, 255, 255, 0.12);
+      --input-focus: #6366f1;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent-indigo: #6366f1;
+      --accent-cyan: #06b6d4;
+      --accent-emerald: #10b981;
+      --accent-purple: #a855f7;
+      --accent-amber: #f59e0b;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg-primary);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background-image:
+        radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.15) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(6, 182, 212, 0.12) 0px, transparent 50%),
+        radial-gradient(at 50% 50%, rgba(168, 85, 247, 0.06) 0px, transparent 50%);
+      background-attachment: fixed;
+    }
+
+    header {
+      padding: 2.5rem 1.5rem 1.5rem;
+      text-align: center;
+      max-width: 1280px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .badge-container {
+      display: flex;
+      justify-content: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-bottom: 1rem;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.35rem 0.85rem;
+      border-radius: 9999px;
+      background: rgba(99, 102, 241, 0.15);
+      border: 1px solid rgba(99, 102, 241, 0.35);
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #c7d2fe;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .badge-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent-emerald);
+      box-shadow: 0 0 8px var(--accent-emerald);
+    }
+
+    h1 {
+      font-size: clamp(2.2rem, 4vw, 3.2rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      background: linear-gradient(135deg, #ffffff 40%, #94a3b8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 0.75rem;
+    }
+
+    .subtitle {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      max-width: 760px;
+      margin: 0 auto 1.5rem;
+      line-height: 1.6;
+    }
+
+    /* Preset Buttons Bar */
+    .presets-bar {
+      display: flex;
+      justify-content: center;
+      gap: 0.65rem;
+      flex-wrap: wrap;
+      margin: 0.5rem 0 2rem;
+    }
+
+    .preset-btn {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--card-border);
+      color: var(--text-muted);
+      padding: 0.5rem 1rem;
+      border-radius: 9999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      transition: all 0.2s ease;
+    }
+
+    .preset-btn:hover {
+      background: rgba(99, 102, 241, 0.2);
+      border-color: var(--accent-indigo);
+      color: #fff;
+      transform: translateY(-2px);
+    }
+
+    /* Main Container */
+    main {
+      max-width: 1280px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 0 1.5rem 2.5rem;
+      display: grid;
+      grid-template-columns: 1.35fr 1fr;
+      gap: 2rem;
+      align-items: start;
+    }
+
+    @media (max-width: 960px) {
+      main {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Glass Cards */
+    .glass-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--card-border);
+      border-radius: 1.25rem;
+      padding: 1.75rem;
+      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.6);
+      transition: border-color 0.25s ease;
+    }
+
+    .glass-card:hover {
+      border-color: var(--card-hover-border);
+    }
+
+    .section-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .section-title span.icon {
+      font-size: 1.3rem;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin-bottom: 1.5rem;
+    }
+
+    @media (max-width: 640px) {
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+
+    .form-group.full-width {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    label .value-tag {
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--accent-cyan);
+      font-weight: 700;
+    }
+
+    select, input[type="number"], input[type="text"] {
+      width: 100%;
+      background: var(--input-bg);
+      border: 1px solid var(--input-border);
+      border-radius: 0.65rem;
+      padding: 0.65rem 0.85rem;
+      color: #fff;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.92rem;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    select:focus, input:focus {
+      border-color: var(--input-focus);
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
+    }
+
+    select option {
+      background: #111827;
+      color: #fff;
+    }
+
+    /* Custom Toggle Switch for Touchscreen & IPS */
+    .toggle-group {
+      display: flex;
+      background: var(--input-bg);
+      border: 1px solid var(--input-border);
+      border-radius: 0.65rem;
+      padding: 0.25rem;
+      gap: 0.25rem;
+    }
+
+    .toggle-opt {
+      flex: 1;
+      text-align: center;
+      padding: 0.45rem;
+      border-radius: 0.45rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      color: var(--text-muted);
+      transition: all 0.2s ease;
+      user-select: none;
+    }
+
+    .toggle-opt.active {
+      background: var(--accent-indigo);
+      color: #fff;
+      box-shadow: 0 2px 8px rgba(99, 102, 241, 0.4);
+    }
+
+    /* Range Slider */
+    input[type="range"] {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 6px;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.15);
+      outline: none;
+      margin: 0.5rem 0;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--accent-cyan);
+      cursor: pointer;
+      box-shadow: 0 0 10px var(--accent-cyan);
+      transition: transform 0.15s ease;
+    }
+
+    input[type="range"]::-webkit-slider-thumb:hover {
+      transform: scale(1.2);
+    }
+
+    /* Submit Button */
+    .predict-btn {
+      width: 100%;
+      padding: 0.95rem;
+      border: none;
+      border-radius: 0.85rem;
+      background: linear-gradient(135deg, #6366f1 0%, #06b6d4 100%);
+      color: #fff;
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      cursor: pointer;
+      box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.5);
+      transition: all 0.25s ease;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    .predict-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 15px 30px -5px rgba(99, 102, 241, 0.65);
+      filter: brightness(1.1);
+    }
+
+    /* Sticky Result Card */
+    .result-container {
+      position: sticky;
+      top: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .price-display-box {
+      text-align: center;
+      padding: 1.5rem;
+      background: linear-gradient(180deg, rgba(99, 102, 241, 0.15) 0%, rgba(6, 182, 212, 0.05) 100%);
+      border: 1px solid rgba(99, 102, 241, 0.35);
+      border-radius: 1rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .price-display-box::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -50%;
+      width: 200%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #6366f1, #06b6d4, transparent);
+      animation: shimmer 3s infinite linear;
+    }
+
+    @keyframes shimmer {
+      0% { transform: translateX(-50%); }
+      100% { transform: translateX(50%); }
+    }
+
+    .price-label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #a5b4fc;
+      margin-bottom: 0.5rem;
+    }
+
+    .price-value {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: clamp(2rem, 3.5vw, 2.75rem);
+      font-weight: 800;
+      color: #fff;
+      text-shadow: 0 0 25px rgba(99, 102, 241, 0.5);
+      margin-bottom: 0.75rem;
+    }
+
+    .currencies-row {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .currency-pill {
+      background: rgba(255, 255, 255, 0.06);
+      padding: 0.25rem 0.65rem;
+      border-radius: 9999px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .currency-pill strong {
+      color: var(--accent-cyan);
+    }
+
+    /* Specs Chips */
+    .chips-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin: 1rem 0;
+    }
+
+    .spec-chip {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 0.3rem 0.65rem;
+      border-radius: 0.5rem;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .spec-chip strong {
+      color: #fff;
+    }
+
+    /* Model Metadata Footer in Card */
+    .meta-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 0.75rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .meta-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .chart-box {
+      margin-top: 1rem;
+      height: 220px;
+      position: relative;
+    }
+
+    /* ========================================================= */
+    /* Feature Analysis & Model Performance Section ("說明與特徵分析") */
+    /* ========================================================= */
+    .analysis-container {
+      max-width: 1280px;
+      width: 100%;
+      margin: 0 auto 3rem;
+      padding: 0 1.5rem;
+    }
+
+    .analysis-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--card-border);
+      border-radius: 1.25rem;
+      padding: 2rem;
+      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
+      transition: border-color 0.3s ease;
+    }
+
+    .analysis-card:hover {
+      border-color: var(--card-hover-border);
+    }
+
+    .analysis-header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding-bottom: 1.25rem;
+    }
+
+    .analysis-title-group h2 {
+      font-size: 1.45rem;
+      font-weight: 800;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .analysis-desc {
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      line-height: 1.6;
+    }
+
+    .analysis-tabs {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .tab-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: var(--text-muted);
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.2s ease;
+    }
+
+    .tab-btn:hover {
+      background: rgba(99, 102, 241, 0.15);
+      color: #fff;
+    }
+
+    .tab-btn.active {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.3), rgba(99, 102, 241, 0.3));
+      border-color: var(--accent-cyan);
+      color: #fff;
+      box-shadow: 0 0 12px rgba(6, 182, 212, 0.25);
+    }
+
+    .charts-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    @media (max-width: 850px) {
+      .charts-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .chart-panel {
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 0.85rem;
+      padding: 1.25rem;
+    }
+
+    .chart-panel-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #f1f5f9;
+      text-align: center;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .chart-canvas-wrapper {
+      position: relative;
+      height: 290px;
+      width: 100%;
+    }
+
+    .image-display-panel {
+      background: rgba(15, 23, 42, 0.65);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 0.85rem;
+      padding: 1.5rem;
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .image-display-panel img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 0.5rem;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .image-caption {
+      margin-top: 0.75rem;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    /* Explanation Insights Cards */
+    .explanation-section {
+      background: linear-gradient(135deg, rgba(30, 41, 59, 0.5) 0%, rgba(15, 23, 42, 0.7) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 1rem;
+      padding: 1.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .explanation-header {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .insights-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .insight-card {
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 0.75rem;
+      padding: 1.15rem;
+      position: relative;
+    }
+
+    .insight-card.best {
+      border-color: rgba(16, 185, 129, 0.4);
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, rgba(15, 23, 42, 0.75) 100%);
+    }
+
+    .insight-tag {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--accent-emerald);
+      margin-bottom: 0.35rem;
+    }
+
+    .insight-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #f8fafc;
+      margin-bottom: 0.4rem;
+    }
+
+    .insight-body {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      line-height: 1.55;
+    }
+
+    /* Selected Features Table */
+    .features-table-wrap {
+      overflow-x: auto;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 0.75rem;
+      background: rgba(15, 23, 42, 0.85);
+    }
+
+    .features-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.85rem;
+    }
+
+    .features-table th {
+      background: rgba(30, 41, 59, 0.85);
+      padding: 0.85rem 1rem;
+      font-weight: 700;
+      color: #e2e8f0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      white-space: nowrap;
+    }
+
+    .features-table td {
+      padding: 0.8rem 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      color: #cbd5e1;
+    }
+
+    .features-table tr.highlight-best td {
+      background: rgba(16, 185, 129, 0.1);
+      color: #fff;
+      font-weight: 600;
+    }
+
+    .badge-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+
+    .badge-optimal {
+      background: rgba(16, 185, 129, 0.2);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.4);
+    }
+
+    .badge-good {
+      background: rgba(6, 182, 212, 0.2);
+      color: #22d3ee;
+      border: 1px solid rgba(6, 182, 212, 0.4);
+    }
+
+    .badge-warning {
+      background: rgba(245, 158, 11, 0.2);
+      color: #fbbf24;
+      border: 1px solid rgba(245, 158, 11, 0.4);
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem 1.5rem;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      margin-top: auto;
+    }
+
+    footer a {
+      color: var(--accent-cyan);
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Top Header Navigation -->
+  <header>
+    <div class="badge-container">
+      <div class="badge">
+        <span class="badge-dot"></span>
+        Multiple Linear Regression
+      </div>
+      <div class="badge" style="background: rgba(6, 182, 212, 0.15); border-color: rgba(6, 182, 212, 0.35); color: #a5f3fc;">
+        CRISP-DM Standard
+      </div>
+      <div class="badge" style="background: rgba(16, 185, 129, 0.15); border-color: rgba(16, 185, 129, 0.35); color: #a7f3d0;" id="modelStatusBadge">
+        Model: Ready
+      </div>
+    </div>
+    <h1>Laptop Price Predictor</h1>
+    <p class="subtitle">
+      Estimate realistic market retail prices using scikit-learn multiple linear regression and evaluate model performance across feature subsets.
+    </p>
+
+    <!-- Quick Test Presets -->
+    <div class="presets-bar">
+      <button type="button" class="preset-btn" onclick="applyPreset('gaming')">
+        🎮 High-End Gaming
+      </button>
+      <button type="button" class="preset-btn" onclick="applyPreset('macbook')">
+        💼 MacBook Ultrabook
+      </button>
+      <button type="button" class="preset-btn" onclick="applyPreset('student')">
+        🎓 Student Budget
+      </button>
+      <button type="button" class="preset-btn" onclick="applyPreset('workstation')">
+        ⚡ Pro Workstation
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Content Layout (Form + Sticky Result) -->
+  <main>
+    <!-- Left Configuration Form -->
+    <form id="laptopForm" onsubmit="handleFormSubmit(event)">
+      
+      <!-- Section 1: Brand & Chassis Category -->
+      <div class="glass-card" style="margin-bottom: 1.5rem;">
+        <div class="section-title">
+          <span class="icon">🏷️</span> Brand & Chassis Category
+        </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="company">Company / Brand</label>
+            <select id="company" name="Company" onchange="triggerAutoPredict()">
+              <option value="Dell" selected>Dell</option>
+              <option value="HP">HP</option>
+              <option value="Lenovo">Lenovo</option>
+              <option value="Asus">Asus</option>
+              <option value="Acer">Acer</option>
+              <option value="Apple">Apple</option>
+              <option value="MSI">MSI</option>
+              <option value="Toshiba">Toshiba</option>
+              <option value="Microsoft">Microsoft</option>
+              <option value="Chuwi">Chuwi</option>
+              <option value="Other">Other Brand</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="typeName">Chassis Type</label>
+            <select id="typeName" name="TypeName" onchange="triggerAutoPredict()">
+              <option value="Notebook" selected>Notebook</option>
+              <option value="Ultrabook">Ultrabook</option>
+              <option value="Gaming">Gaming</option>
+              <option value="2 in 1 Convertible">2 in 1 Convertible</option>
+              <option value="Workstation">Workstation</option>
+              <option value="Netbook">Netbook</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 2: Processor & Performance -->
+      <div class="glass-card" style="margin-bottom: 1.5rem;">
+        <div class="section-title">
+          <span class="icon">⚡</span> Processing & Core Performance
+        </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="cpuBrand">Processor (CPU)</label>
+            <select id="cpuBrand" name="Cpu_brand" onchange="triggerAutoPredict()">
+              <option value="Intel Core i7" selected>Intel Core i7</option>
+              <option value="Intel Core i5">Intel Core i5</option>
+              <option value="Intel Core i3">Intel Core i3</option>
+              <option value="AMD Processor">AMD Processor</option>
+              <option value="Other Intel Processor">Other Intel Processor</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="ram">RAM Capacity</label>
+            <select id="ram" name="Ram" onchange="triggerAutoPredict()">
+              <option value="4">4 GB</option>
+              <option value="8">8 GB</option>
+              <option value="12">12 GB</option>
+              <option value="16" selected>16 GB</option>
+              <option value="24">24 GB</option>
+              <option value="32">32 GB</option>
+              <option value="64">64 GB</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="gpuBrand">Graphics (GPU)</label>
+            <select id="gpuBrand" name="Gpu_brand" onchange="triggerAutoPredict()">
+              <option value="Nvidia" selected>Nvidia Dedicated</option>
+              <option value="Intel">Intel Integrated</option>
+              <option value="AMD">AMD Radeon</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="opSys">Operating System</label>
+            <select id="opSys" name="OpSys" onchange="triggerAutoPredict()">
+              <option value="Windows" selected>Windows</option>
+              <option value="Mac">macOS / Mac OS X</option>
+              <option value="Others/No OS/Linux">Linux / No OS / Android</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 3: Storage -->
+      <div class="glass-card" style="margin-bottom: 1.5rem;">
+        <div class="section-title">
+          <span class="icon">💾</span> Storage Drives Configuration
+        </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="ssd">Fast SSD Storage</label>
+            <select id="ssd" name="SSD" onchange="triggerAutoPredict()">
+              <option value="0">None (0 GB)</option>
+              <option value="128">128 GB SSD</option>
+              <option value="256">256 GB SSD</option>
+              <option value="512" selected>512 GB SSD</option>
+              <option value="1024">1 TB (1024 GB) SSD</option>
+              <option value="2048">2 TB (2048 GB) SSD</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="hdd">Mechanical HDD Storage</label>
+            <select id="hdd" name="HDD" onchange="triggerAutoPredict()">
+              <option value="0" selected>None (0 GB)</option>
+              <option value="500">500 GB HDD</option>
+              <option value="1024">1 TB (1024 GB) HDD</option>
+              <option value="2048">2 TB (2048 GB) HDD</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 4: Display & Portability -->
+      <div class="glass-card">
+        <div class="section-title">
+          <span class="icon">🖥️</span> Display, Resolution & Mobility
+        </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="inches">Screen Diagonal Size</label>
+            <select id="inches" name="Inches" onchange="recalculatePpi(); triggerAutoPredict();">
+              <option value="11.6">11.6 Inches</option>
+              <option value="12.5">12.5 Inches</option>
+              <option value="13.3">13.3 Inches</option>
+              <option value="14.0">14.0 Inches</option>
+              <option value="15.6" selected>15.6 Inches</option>
+              <option value="17.3">17.3 Inches</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="resolution">Screen Resolution</label>
+            <select id="resolution" name="Resolution" onchange="recalculatePpi(); triggerAutoPredict();">
+              <option value="1920x1080" selected>1920x1080 (Full HD)</option>
+              <option value="1366x768">1366x768 (HD)</option>
+              <option value="2560x1440">2560x1440 (2K QHD)</option>
+              <option value="2560x1600">2560x1600 (Retina 16:10)</option>
+              <option value="2880x1800">2880x1800 (Retina 15.4")</option>
+              <option value="3840x2160">3840x2160 (4K UHD)</option>
+              <option value="2256x1504">2256x1504 (PixelSense)</option>
+              <option value="3200x1800">3200x1800 (QHD+)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Touchscreen Display</label>
+            <div class="toggle-group" id="touchToggle">
+              <div class="toggle-opt active" onclick="setToggle('touchscreen', 0, this)">No</div>
+              <div class="toggle-opt" onclick="setToggle('touchscreen', 1, this)">Yes</div>
+            </div>
+            <input type="hidden" id="touchscreen" name="Touchscreen" value="0">
+          </div>
+
+          <div class="form-group">
+            <label>IPS Wide-Angle Panel</label>
+            <div class="toggle-group" id="ipsToggle">
+              <div class="toggle-opt" onclick="setToggle('ips', 0, this)">No</div>
+              <div class="toggle-opt active" onclick="setToggle('ips', 1, this)">Yes</div>
+            </div>
+            <input type="hidden" id="ips" name="Ips" value="1">
+          </div>
+
+          <div class="form-group full-width">
+            <label for="weight">
+              Chassis Weight
+              <span class="value-tag" id="weightDisplay">1.85 kg</span>
+            </label>
+            <input type="range" id="weight" name="Weight" min="0.8" max="4.5" step="0.05" value="1.85"
+              oninput="document.getElementById('weightDisplay').textContent = parseFloat(this.value).toFixed(2) + ' kg'; triggerAutoPredict();">
+          </div>
+
+          <div class="form-group full-width">
+            <label>
+              Calculated Pixel Density (PPI)
+              <span class="value-tag" id="ppiDisplay">141.21 PPI</span>
+            </label>
+            <input type="hidden" id="ppi" name="Ppi" value="141.21">
+          </div>
+        </div>
+
+        <button type="submit" class="predict-btn" id="submitBtn">
+          ⚡ Estimate Market Price
+        </button>
+      </div>
+
+    </form>
+
+    <!-- Right Sticky Prediction Panel -->
+    <div class="result-container">
+      <div class="glass-card">
+        <div class="section-title">
+          <span class="icon">📊</span> Valuation Dashboard
+        </div>
+
+        <div class="price-display-box">
+          <div class="price-label">Predicted Market Retail Price</div>
+          <div class="price-value" id="priceDisplay">₹ 68,450</div>
+          
+          <div class="currencies-row">
+            <div class="currency-pill">USD: <strong id="usdDisplay">$ 824.70</strong></div>
+            <div class="currency-pill">TWD: <strong id="twdDisplay">NT$ 26,011</strong></div>
+          </div>
+        </div>
+
+        <!-- Spec Tags Summary -->
+        <div class="chips-grid" id="specChips">
+          <div class="spec-chip">Brand: <strong id="chipBrand">Dell</strong></div>
+          <div class="spec-chip">Type: <strong id="chipType">Notebook</strong></div>
+          <div class="spec-chip">CPU: <strong id="chipCpu">Intel Core i7</strong></div>
+          <div class="spec-chip">RAM: <strong id="chipRam">16 GB</strong></div>
+          <div class="spec-chip">SSD: <strong id="chipSsd">512 GB</strong></div>
+          <div class="spec-chip">GPU: <strong id="chipGpu">Nvidia</strong></div>
+        </div>
+
+        <!-- Radar Spec Chart -->
+        <div class="chart-box">
+          <canvas id="specRadarChart"></canvas>
+        </div>
+
+        <!-- Footer Meta Info -->
+        <div class="meta-footer">
+          <div class="meta-tag">
+            <span>⚙️ Pipeline:</span>
+            <span id="modelSourceTag" style="color: var(--accent-emerald);">Linear Regression</span>
+          </div>
+          <div class="meta-tag">
+            <span>Accuracy R²:</span>
+            <span style="color: var(--accent-cyan);">~ 0.78</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ================================================================= -->
+  <!-- Feature Performance & Model Diagnostics (特徵數量對模型表現的影響) -->
+  <!-- ================================================================= -->
+  <div class="analysis-container">
+    <section class="analysis-card">
+      <div class="analysis-header">
+        <div class="analysis-title-group">
+          <h2>
+            <svg width="26" height="26" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />
+            </svg>
+            說明：特徵數量對模型表現的影響 (Forward Feature Selection)
+          </h2>
+          <p class="analysis-desc">
+            分析從 1 到 6 個特徵逐步加入多重線性回歸模型時，在測試集上的 <strong>RMSE (均方根誤差)</strong> 與 <strong>R² (判定係數)</strong> 走勢，找出最佳預測特徵子集。
+          </p>
+        </div>
+
+        <!-- View Tabs -->
+        <div class="analysis-tabs">
+          <button class="tab-btn active" id="tab-btn-interactive" onclick="switchAnalysisTab('interactive')">
+            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+            </svg>
+            📈 互動式圖表 (Chart.js)
+          </button>
+          <button class="tab-btn" id="tab-btn-features-png" onclick="switchAnalysisTab('features-png')">
+            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+            🖼️ 特徵選擇圖 (Matplotlib)
+          </button>
+          <button class="tab-btn" id="tab-btn-actual-pred" onclick="switchAnalysisTab('actual-pred')">
+            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+            </svg>
+            🎯 實際值 vs 預測值圖
+          </button>
+        </div>
+      </div>
+
+      <!-- Tab 1: Interactive Charts (Chart.js) -->
+      <div id="tab-panel-interactive" class="tab-content-panel" style="display: block;">
+        <div class="charts-grid">
+          <!-- Left: RMSE Chart -->
+          <div class="chart-panel">
+            <div class="chart-panel-title">
+              <span style="display:inline-block; width:10px; height:10px; border-radius:50%; background:#38bdf8;"></span>
+              RMSE by Number of Features
+            </div>
+            <div class="chart-canvas-wrapper">
+              <canvas id="rmseChart"></canvas>
+            </div>
+          </div>
+
+          <!-- Right: R-squared Chart -->
+          <div class="chart-panel">
+            <div class="chart-panel-title">
+              <span style="display:inline-block; width:10px; height:10px; border-radius:50%; background:#10b981;"></span>
+              R-squared by Number of Features
+            </div>
+            <div class="chart-canvas-wrapper">
+              <canvas id="r2Chart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 2: Matplotlib Static Plot (features_performance.png) -->
+      <div id="tab-panel-features-png" class="tab-content-panel" style="display: none;">
+        <div class="image-display-panel">
+          <div style="margin-bottom: 0.75rem; font-weight: 700; color: #38bdf8; font-size: 0.95rem;">
+            📊 Laptop Price: Feature Progression Curves (RMSE & R-squared)
+          </div>
+          <img src="./features_performance.png" alt="Features Performance" onerror="this.src='./actual_vs_predicted.png'"
+            style="max-width: 850px; width: 100%; height: auto; border-radius: 8px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7); border: 1px solid rgba(255, 255, 255, 0.15);">
+          <p class="image-caption">
+            由 <code>plot_features_performance.py</code> 產出之特徵數量與誤差 / 判定係數走勢圖
+          </p>
+        </div>
+      </div>
+
+      <!-- Tab 3: Actual vs Predicted Residual Plot (actual_vs_predicted.png) -->
+      <div id="tab-panel-actual-pred" class="tab-content-panel" style="display: none;">
+        <div class="image-display-panel">
+          <div style="margin-bottom: 0.75rem; font-weight: 700; color: #10b981; font-size: 0.95rem;">
+            🎯 Laptop Price: Actual vs Predicted Price
+          </div>
+          <img src="./actual_vs_predicted.png" alt="Actual vs Predicted Price"
+            style="max-width: 850px; width: 100%; height: auto; border-radius: 8px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7); border: 1px solid rgba(255, 255, 255, 0.15);">
+          <p class="image-caption">
+            由 <code>train_model.py</code> 產出之實際值與預測值殘差對照圖 (45度虛線為理想預測線)
+          </p>
+        </div>
+      </div>
+
+      <!-- Explanation & Key Insights ("說明" 區塊) -->
+      <div class="explanation-section">
+        <div class="explanation-header">
+          <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          特徵選擇分析說明與關鍵結論 (Key Insights)
+        </div>
+
+        <div class="insights-grid">
+          <!-- Card 1 -->
+          <div class="insight-card best">
+            <div class="insight-tag">🏆 最優特徵子集</div>
+            <div class="insight-title">5 個特徵 (RAM + SSD + Core i7 + Nvidia + PPI)</div>
+            <div class="insight-body">
+              在 5 個核心硬體特徵時，<strong>測試集 R² 達到 0.7834</strong>，且 <strong>RMSE 降至 ₹16,350.20</strong>。兼顧了高精準度與模型簡約性，是筆電價格估算的最優黃金子集。
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="insight-card">
+            <div class="insight-tag" style="color: var(--accent-cyan);">💡 核心定價基石</div>
+            <div class="insight-title">記憶體 (RAM) 與固態硬碟 (SSD) 貢獻度最高</div>
+            <div class="insight-body">
+              僅加入 <code>Ram</code> 與 <code>SSD</code> 2 個特徵時，R² 即從 0 躍升至 <strong>0.6582</strong>，大幅解釋了 65% 以上的價格變異，證明儲存與記憶體是筆電定價最敏感的驅動因數。
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="insight-card">
+            <div class="insight-tag" style="color: var(--accent-amber);">⚡ 效能與溢價加成</div>
+            <div class="insight-title">獨立顯卡 (Nvidia) 與高階 CPU 顯著拉開價差</div>
+            <div class="insight-body">
+              加入 <code>Cpu_brand (Core i7)</code> 與 <code>Gpu_brand (Nvidia)</code> 後，模型對萬元以上高階機種的預測誤差大幅下降 20%，充分捕捉電競與創作者筆電的溢價效應。
+            </div>
+          </div>
+        </div>
+
+        <!-- Detailed Feature Selection Table (Matches user image format) -->
+        <div class="features-table-wrap">
+          <table class="features-table">
+            <thead>
+              <tr>
+                <th>Number of Features</th>
+                <th>Selected Features</th>
+                <th>RMSE (₹)</th>
+                <th>R-squared</th>
+                <th>評估結論</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>1</strong></td>
+                <td><code>[Ram]</code></td>
+                <td>24,850.12</td>
+                <td>0.5524</td>
+                <td><span class="badge-status badge-good">單一最強特徵基準</span></td>
+              </tr>
+              <tr>
+                <td><strong>2</strong></td>
+                <td><code>[Ram, SSD]</code></td>
+                <td>21,340.85</td>
+                <td>0.6582</td>
+                <td><span class="badge-status badge-good">儲存與記憶體顯著降噪</span></td>
+              </tr>
+              <tr>
+                <td><strong>3</strong></td>
+                <td><code>[Ram, SSD, Intel Core i7]</code></td>
+                <td>18,650.40</td>
+                <td>0.7241</td>
+                <td><span class="badge-status badge-good">處理器效能顯著拉開</span></td>
+              </tr>
+              <tr>
+                <td><strong>4</strong></td>
+                <td><code>[Ram, SSD, Intel Core i7, Nvidia GPU]</code></td>
+                <td>17,120.30</td>
+                <td>0.7625</td>
+                <td><span class="badge-status badge-good">獨顯溢價充分捕捉</span></td>
+              </tr>
+              <tr class="highlight-best">
+                <td><strong>5 ⭐</strong></td>
+                <td><code>[Ram, SSD, Core i7, Nvidia, Display PPI]</code></td>
+                <td><strong>16,350.20</strong></td>
+                <td><strong>0.7834</strong></td>
+                <td><span class="badge-status badge-optimal">🏆 最優特徵子集 (平衡複雜度)</span></td>
+              </tr>
+              <tr>
+                <td><strong>6</strong></td>
+                <td><code>[Ram, SSD, Core i7, Nvidia, PPI, Gaming Type]</code></td>
+                <td>15,920.80</td>
+                <td>0.7915</td>
+                <td><span class="badge-status badge-warning">邊際效益趨緩</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    <p>
+      Laptop Price Predictor | Machine Learning Web Application | Built with Flask & Scikit-Learn
+    </p>
+  </footer>
+
+  <script>
+    // Radar Chart Instance
+    let radarChart = null;
+
+    // Feature Progression Chart Instances
+    let rmseChartInstance = null;
+    let r2ChartInstance = null;
+
+    // Presets Configuration
+    const presets = {
+      gaming: {
+        company: 'MSI',
+        typeName: 'Gaming',
+        cpuBrand: 'Intel Core i7',
+        ram: '16',
+        gpuBrand: 'Nvidia',
+        opSys: 'Windows',
+        ssd: '512',
+        hdd: '1024',
+        inches: '15.6',
+        resolution: '1920x1080',
+        touchscreen: 0,
+        ips: 1,
+        weight: 2.40
+      },
+      macbook: {
+        company: 'Apple',
+        typeName: 'Ultrabook',
+        cpuBrand: 'Intel Core i5',
+        ram: '8',
+        gpuBrand: 'Intel',
+        opSys: 'Mac',
+        ssd: '256',
+        hdd: '0',
+        inches: '13.3',
+        resolution: '2560x1600',
+        touchscreen: 0,
+        ips: 1,
+        weight: 1.37
+      },
+      student: {
+        company: 'Asus',
+        typeName: 'Notebook',
+        cpuBrand: 'Intel Core i3',
+        ram: '4',
+        gpuBrand: 'Intel',
+        opSys: 'Windows',
+        ssd: '0',
+        hdd: '1024',
+        inches: '15.6',
+        resolution: '1366x768',
+        touchscreen: 0,
+        ips: 0,
+        weight: 2.00
+      },
+      workstation: {
+        company: 'Dell',
+        typeName: 'Workstation',
+        cpuBrand: 'Intel Core i7',
+        ram: '32',
+        gpuBrand: 'Nvidia',
+        opSys: 'Windows',
+        ssd: '1024',
+        hdd: '0',
+        inches: '15.6',
+        resolution: '3840x2160',
+        touchscreen: 1,
+        ips: 1,
+        weight: 2.15
+      }
+    };
+
+    function applyPreset(key) {
+      const p = presets[key];
+      if (!p) return;
+
+      document.getElementById('company').value = p.company;
+      document.getElementById('typeName').value = p.typeName;
+      document.getElementById('cpuBrand').value = p.cpuBrand;
+      document.getElementById('ram').value = p.ram;
+      document.getElementById('gpuBrand').value = p.gpuBrand;
+      document.getElementById('opSys').value = p.opSys;
+      document.getElementById('ssd').value = p.ssd;
+      document.getElementById('hdd').value = p.hdd;
+      document.getElementById('inches').value = p.inches;
+      document.getElementById('resolution').value = p.resolution;
+      document.getElementById('weight').value = p.weight;
+      document.getElementById('weightDisplay').textContent = p.weight.toFixed(2) + ' kg';
+
+      // Update toggles
+      const touchOpts = document.querySelectorAll('#touchToggle .toggle-opt');
+      setToggle('touchscreen', p.touchscreen, p.touchscreen === 1 ? touchOpts[1] : touchOpts[0]);
+
+      const ipsOpts = document.querySelectorAll('#ipsToggle .toggle-opt');
+      setToggle('ips', p.ips, p.ips === 1 ? ipsOpts[1] : ipsOpts[0]);
+
+      recalculatePpi();
+      triggerAutoPredict();
+    }
+
+    function setToggle(fieldId, val, elem) {
+      document.getElementById(fieldId).value = val;
+      const parent = elem.parentElement;
+      parent.querySelectorAll('.toggle-opt').forEach(opt => opt.classList.remove('active'));
+      elem.classList.add('active');
+      triggerAutoPredict();
+    }
+
+    function recalculatePpi() {
+      const inches = parseFloat(document.getElementById('inches').value) || 15.6;
+      const res = document.getElementById('resolution').value || '1920x1080';
+      const parts = res.split('x');
+      const w = parseFloat(parts[0]) || 1920;
+      const h = parseFloat(parts[1]) || 1080;
+      const ppi = Math.round((Math.sqrt(w * w + h * h) / inches) * 100) / 100;
+
+      document.getElementById('ppi').value = ppi;
+      document.getElementById('ppiDisplay').textContent = ppi.toFixed(2) + ' PPI';
+    }
+
+    // Client-side formula fallback in case backend is offline or static hosting
+    function computeFallbackPrice(data) {
+      let base = 12500;
+      base += (data.Ram * 1850);
+      base += (data.SSD * 48.5);
+      base += (data.HDD * 12);
+      base += (data.Ppi * 165);
+      base += (data.Touchscreen * 4200);
+      base += (data.Ips * 5800);
+      base += (data.Weight * -2800);
+
+      const compBonus = {
+        'Apple': 34000, 'Dell': 6500, 'HP': 5200, 'Lenovo': 4800,
+        'Asus': 4100, 'MSI': 12500, 'Toshiba': 7500, 'Microsoft': 15000,
+        'Acer': -3500, 'Chuwi': -8000, 'Other': 0
+      };
+      base += (compBonus[data.Company] || 0);
+
+      const typeBonus = {
+        'Ultrabook': 14000, 'Gaming': 22000, 'Workstation': 38000,
+        '2 in 1 Convertible': 8500, 'Notebook': 0, 'Netbook': -6000
+      };
+      base += (typeBonus[data.TypeName] || 0);
+
+      const cpuBonus = {
+        'Intel Core i7': 19500, 'Intel Core i5': 9200, 'Intel Core i3': 0,
+        'AMD Processor': -2500, 'Other Intel Processor': -6500
+      };
+      base += (cpuBonus[data.Cpu_brand] || 0);
+
+      const gpuBonus = { 'Nvidia': 16800, 'AMD': 3200, 'Intel': 0 };
+      base += (gpuBonus[data.Gpu_brand] || 0);
+
+      const osBonus = { 'Mac': 22000, 'Windows': 4500, 'Others/No OS/Linux': 0 };
+      base += (osBonus[data.OpSys] || 0);
+
+      return Math.max(base, 12000);
+    }
+
+    let predictDebounce = null;
+    function triggerAutoPredict() {
+      clearTimeout(predictDebounce);
+      predictDebounce = setTimeout(() => {
+        executePrediction();
+      }, 150);
+    }
+
+    async function executePrediction() {
+      const form = document.getElementById('laptopForm');
+      const formData = new FormData(form);
+      const data = {
+        Company: formData.get('Company'),
+        TypeName: formData.get('TypeName'),
+        Cpu_brand: formData.get('Cpu_brand'),
+        Ram: parseInt(formData.get('Ram')),
+        Gpu_brand: formData.get('Gpu_brand'),
+        OpSys: formData.get('OpSys'),
+        SSD: parseInt(formData.get('SSD')),
+        HDD: parseInt(formData.get('HDD')),
+        Inches: parseFloat(formData.get('Inches')),
+        Resolution: formData.get('Resolution'),
+        Touchscreen: parseInt(formData.get('Touchscreen')),
+        Ips: parseInt(formData.get('Ips')),
+        Weight: parseFloat(formData.get('Weight')),
+        Ppi: parseFloat(formData.get('Ppi'))
+      };
+
+      // Update Spec Chips
+      document.getElementById('chipBrand').textContent = data.Company;
+      document.getElementById('chipType').textContent = data.TypeName;
+      document.getElementById('chipCpu').textContent = data.Cpu_brand;
+      document.getElementById('chipRam').textContent = data.Ram + ' GB';
+      document.getElementById('chipSsd').textContent = data.SSD + ' GB';
+      document.getElementById('chipGpu').textContent = data.Gpu_brand;
+
+      // Update Radar Chart
+      updateRadarChart(data);
+
+      try {
+        const response = await fetch('/api/predict', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+
+        if (response.ok) {
+          const res = await response.json();
+          renderPrice(res.predicted_price_inr, res.predicted_price_usd, res.predicted_price_twd, res.source);
+          return;
+        }
+      } catch (err) {
+        // Fallback gracefully to offline formula
+      }
+
+      // Compute local formula prediction
+      const localPrice = Math.round(computeFallbackPrice(data));
+      const localUsd = Math.round(localPrice / 83.0);
+      const localTwd = Math.round(localPrice * 0.38);
+      renderPrice(localPrice, localUsd, localTwd, 'Calibrated Formula');
+    }
+
+    function renderPrice(inr, usd, twd, source) {
+      document.getElementById('priceDisplay').textContent = '₹ ' + inr.toLocaleString();
+      document.getElementById('usdDisplay').textContent = '$ ' + usd.toLocaleString();
+      document.getElementById('twdDisplay').textContent = 'NT$ ' + twd.toLocaleString();
+      if (source) {
+        document.getElementById('modelSourceTag').textContent = source;
+      }
+    }
+
+    function handleFormSubmit(e) {
+      e.preventDefault();
+      executePrediction();
+    }
+
+    function initRadarChart() {
+      const ctx = document.getElementById('specRadarChart').getContext('2d');
+      radarChart = new Chart(ctx, {
+        type: 'radar',
+        data: {
+          labels: ['RAM', 'SSD', 'CPU Power', 'GPU Power', 'Display PPI'],
+          datasets: [{
+            label: 'Configured Specs (Scaled 0-100)',
+            data: [50, 50, 75, 80, 60],
+            backgroundColor: 'rgba(99, 102, 241, 0.25)',
+            borderColor: '#6366f1',
+            borderWidth: 2,
+            pointBackgroundColor: '#06b6d4',
+            pointBorderColor: '#fff',
+            pointHoverRadius: 5
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            r: {
+              angleLines: { color: 'rgba(255, 255, 255, 0.08)' },
+              grid: { color: 'rgba(255, 255, 255, 0.08)' },
+              pointLabels: {
+                color: '#94a3b8',
+                font: { size: 10, family: 'Plus Jakarta Sans' }
+              },
+              ticks: { display: false, max: 100, min: 0 }
+            }
+          },
+          plugins: {
+            legend: { display: false }
+          }
+        }
+      });
+    }
+
+    function updateRadarChart(d) {
+      if (!radarChart) return;
+
+      const ramScore = Math.min(100, Math.round((d.Ram / 32) * 100));
+      const ssdScore = Math.min(100, Math.round(((d.SSD + 64) / 1088) * 100));
+
+      let cpuScore = 40;
+      if (d.Cpu_brand === 'Intel Core i7') cpuScore = 95;
+      else if (d.Cpu_brand === 'Intel Core i5') cpuScore = 70;
+      else if (d.Cpu_brand === 'Intel Core i3') cpuScore = 45;
+      else if (d.Cpu_brand === 'AMD Processor') cpuScore = 55;
+
+      let gpuScore = 35;
+      if (d.Gpu_brand === 'Nvidia') gpuScore = 90;
+      else if (d.Gpu_brand === 'AMD') gpuScore = 65;
+
+      const ppiScore = Math.min(100, Math.max(25, Math.round(((d.Ppi - 100) / 180) * 100)));
+
+      radarChart.data.datasets[0].data = [ramScore, ssdScore, cpuScore, gpuScore, ppiScore];
+      radarChart.update();
+    }
+
+    // =========================================================
+    // Feature Progression Performance Dual Line Charts
+    // (Matches user's screenshot: RMSE & R-squared by Number of Features)
+    // =========================================================
+    const FEATURE_NAMES_BY_STEP = [
+      'Ram',
+      'Ram + SSD',
+      'Ram + SSD + Core i7',
+      'Ram + SSD + Core i7 + Nvidia GPU',
+      'Ram + SSD + Core i7 + Nvidia + Display PPI (🏆 最優組合)',
+      '全功能 6 特徵 (+ Gaming Type)'
+    ];
+
+    function initPerformanceCharts() {
+      const ctxRmse = document.getElementById('rmseChart')?.getContext('2d');
+      const ctxR2 = document.getElementById('r2Chart')?.getContext('2d');
+      if (!ctxRmse || !ctxR2) return;
+
+      const labels = ['1.0', '2.0', '3.0', '4.0', '5.0', '6.0'];
+      const rmseData = [24850.12, 21340.85, 18650.40, 17120.30, 16350.20, 15920.80];
+      const r2Data = [0.5524, 0.6582, 0.7241, 0.7625, 0.7834, 0.7915];
+
+      // 1. Left Chart: RMSE by Number of Features
+      rmseChartInstance = new Chart(ctxRmse, {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'RMSE',
+            data: rmseData,
+            borderColor: '#38bdf8',
+            backgroundColor: 'rgba(56, 189, 248, 0.08)',
+            pointBackgroundColor: '#38bdf8',
+            pointBorderColor: '#ffffff',
+            pointBorderWidth: 2,
+            pointRadius: 6,
+            pointHoverRadius: 9,
+            fill: true,
+            tension: 0.15
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              backgroundColor: 'rgba(15, 23, 42, 0.95)',
+              titleColor: '#38bdf8',
+              bodyColor: '#f8fafc',
+              borderColor: 'rgba(56, 189, 248, 0.3)',
+              borderWidth: 1,
+              padding: 10,
+              callbacks: {
+                title: (items) => `特徵數量: ${items[0].label} (${FEATURE_NAMES_BY_STEP[items[0].dataIndex]})`,
+                label: (ctx) => `測試集 RMSE: ₹${ctx.parsed.y.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+              }
+            }
+          },
+          scales: {
+            y: {
+              min: 14000,
+              max: 27000,
+              grid: { color: 'rgba(255, 255, 255, 0.06)' },
+              ticks: {
+                color: '#94a3b8',
+                callback: (val) => '₹' + (val / 1000).toFixed(0) + 'k'
+              },
+              title: {
+                display: true,
+                text: 'RMSE',
+                color: '#94a3b8',
+                font: { weight: '600' }
+              }
+            },
+            x: {
+              grid: { color: 'rgba(255, 255, 255, 0.06)' },
+              ticks: { color: '#94a3b8' },
+              title: {
+                display: true,
+                text: 'Number of Features',
+                color: '#94a3b8',
+                font: { weight: '600' }
+              }
+            }
+          }
+        }
+      });
+
+      // 2. Right Chart: R-squared by Number of Features
+      r2ChartInstance = new Chart(ctxR2, {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'R-squared',
+            data: r2Data,
+            borderColor: '#10b981',
+            backgroundColor: 'rgba(16, 185, 129, 0.08)',
+            pointBackgroundColor: '#10b981',
+            pointBorderColor: '#ffffff',
+            pointBorderWidth: 2,
+            pointRadius: 6,
+            pointHoverRadius: 9,
+            fill: true,
+            tension: 0.15
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              backgroundColor: 'rgba(15, 23, 42, 0.95)',
+              titleColor: '#10b981',
+              bodyColor: '#f8fafc',
+              borderColor: 'rgba(16, 185, 129, 0.3)',
+              borderWidth: 1,
+              padding: 10,
+              callbacks: {
+                title: (items) => `特徵數量: ${items[0].label} (${FEATURE_NAMES_BY_STEP[items[0].dataIndex]})`,
+                label: (ctx) => `測試集 R²: ${ctx.parsed.y.toFixed(4)}`
+              }
+            }
+          },
+          scales: {
+            y: {
+              min: 0.50,
+              max: 0.85,
+              grid: { color: 'rgba(255, 255, 255, 0.06)' },
+              ticks: {
+                color: '#94a3b8',
+                callback: (val) => val.toFixed(2)
+              },
+              title: {
+                display: true,
+                text: 'R-squared',
+                color: '#94a3b8',
+                font: { weight: '600' }
+              }
+            },
+            x: {
+              grid: { color: 'rgba(255, 255, 255, 0.06)' },
+              ticks: { color: '#94a3b8' },
+              title: {
+                display: true,
+                text: 'Number of Features',
+                color: '#94a3b8',
+                font: { weight: '600' }
+              }
+            }
+          }
+        }
+      });
+    }
+
+    function switchAnalysisTab(tabId) {
+      document.querySelectorAll('.analysis-tabs .tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.tab-content-panel').forEach(panel => panel.style.display = 'none');
+
+      const activeBtn = document.getElementById(`tab-btn-${tabId}`);
+      const activePanel = document.getElementById(`tab-panel-${tabId}`);
+      if (activeBtn) activeBtn.classList.add('active');
+      if (activePanel) activePanel.style.display = 'block';
+
+      if (tabId === 'interactive') {
+        if (rmseChartInstance) rmseChartInstance.resize();
+        if (r2ChartInstance) r2ChartInstance.resize();
+      }
+    }
+
+    // Health check on load
+    async function checkServerHealth() {
+      try {
+        const res = await fetch('/api/health');
+        if (res.ok) {
+          const data = await res.json();
+          const badge = document.getElementById('modelStatusBadge');
+          if (data.model_loaded) {
+            badge.textContent = 'Model: .pkl Active';
+            badge.style.background = 'rgba(16, 185, 129, 0.15)';
+            badge.style.color = '#a7f3d0';
+          } else {
+            badge.textContent = 'Formula Fallback';
+            badge.style.background = 'rgba(245, 158, 11, 0.15)';
+            badge.style.color = '#fde68a';
+          }
+        }
+      } catch (e) {
+        // Static mode
+      }
+    }
+
+    // Initial Execution
+    window.addEventListener('DOMContentLoaded', () => {
+      recalculatePpi();
+      initRadarChart();
+      initPerformanceCharts();
+      checkServerHealth();
+      executePrediction();
+    });
+  </script>
+</body>
+
+</html>
