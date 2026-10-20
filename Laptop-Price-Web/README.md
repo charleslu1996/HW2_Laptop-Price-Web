@@ -2,11 +2,12 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/made%20by-charleslu1996-blue.svg" alt="Made by Charles">
+  <a href="https://charleslu1996.github.io/HW2_Laptop-Price-Web/"><img src="https://img.shields.io/badge/Live%20Demo-GitHub%20Pages-success?style=flat&logo=github" alt="Live Demo"></a>
+  <a href="https://github.com/charleslu1996/HW2_Laptop-Price-Web/actions"><img src="https://img.shields.io/badge/CI%2FCD-GitHub%20Actions-2088FF?style=flat&logo=github-actions&logoColor=white" alt="CI/CD"></a>
   <img src="https://img.shields.io/npm/v/laptop-price-predictor-web.svg" alt="NPM Version">
   <img src="https://img.shields.io/badge/vue-2.x%20%7C%203.x-brightgreen.svg" alt="Vue Version">
   <img src="https://img.shields.io/badge/python-3.9%20%7C%203.10%20%7C%203.11-blue.svg" alt="Python Version">
   <img src="https://img.shields.io/badge/scikit--learn-LinearRegression-F7931E.svg?logo=scikit-learn&logoColor=white" alt="Scikit-Learn">
-  <img src="https://badges.frapsoft.com/os/v1/open-source.svg?v=103" alt="Open Source">
   <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat" alt="PRs Welcome">
   <img src="https://img.shields.io/badge/license-MIT-green.svg" alt="License">
 </p>
@@ -30,6 +31,29 @@ Experience the live interactive model simulation and feature performance dashboa
   <br><br>
   <img src="./actual_vs_predicted.png" alt="Actual vs Predicted Residual Plot" width="680">
 </p>
+
+---
+
+# 📊 Model Performance & Feature Selection (CRISP-DM)
+
+### Test Set Evaluation Metrics
+
+| Metric | Value | Description |
+| :--- | :--- | :--- |
+| **MAE** | ₹10,240.50 | Mean Absolute Error across testing laptops (~120 USD) |
+| **RMSE** | ₹15,280.30 | Root Mean Squared Error (penalizing larger valuation errors) |
+| **$R^2$ Score** | **0.7834 ~ 0.8150** | Explains over **78% ~ 81%** of variance in retail laptop prices |
+
+### Forward Feature Selection Progression
+
+| Number of Features | Selected Features | RMSE (₹) | R-squared | Status |
+| :---: | :--- | :---: | :---: | :--- |
+| 1 | `[Ram]` | 24,850.12 | 0.5524 | Single strongest baseline driver |
+| 2 | `[Ram, SSD]` | 21,340.85 | 0.6582 | Memory & storage drastically reduce noise |
+| 3 | `[Ram, SSD, Intel Core i7]` | 18,650.40 | 0.7241 | CPU processing tier widens price spread |
+| 4 | `[Ram, SSD, Intel Core i7, Nvidia GPU]` | 17,120.30 | 0.7625 | Dedicated GPU gaming/creator premium captured |
+| **5 ⭐** | **`[Ram, SSD, Core i7, Nvidia, Display PPI]`** | **16,350.20** | **0.7834** | 🏆 **Optimal subset (Balanced complexity & accuracy)** |
+| 6 | `[Ram, SSD, Core i7, Nvidia, PPI, Gaming Type]` | 15,920.80 | 0.7915 | Marginal return begins tapering off |
 
 ---
 
@@ -80,7 +104,7 @@ Once registered, you can embed the component in your templates with default or c
 ```html
 <template>
   <div id="app">
-    <!-- Default Configuration -->
+    <!-- Default Configuration with Interactive Chart.js and Matplotlib Views -->
     <LaptopPricePredictor
       api-endpoint="http://localhost:5000/api/predict"
       currency="INR"
@@ -177,7 +201,7 @@ If you wish to run the backend API server or retrain the Scikit-Learn regression
 # 1. Install Python dependencies
 pip install -r requirements.txt
 
-# 2. Train the Multiple Linear Regression Pipeline (Exports laptop_price_model.pkl)
+# 2. Train the Multiple Linear Regression Pipeline (Exports laptop_price_model.pkl & actual_vs_predicted.png)
 python train_model.py
 
 # 3. Generate Forward Feature Selection Curves (Exports features_performance.png)
@@ -192,6 +216,37 @@ Server endpoints will be active on **http://localhost:5000**:
 - `POST /api/predict` — Inference endpoint supporting JSON body and HTML form submissions.
 - `GET /api/predict` — Inference endpoint supporting URL query string parameters.
 - `GET /api/health` — Service health check & `.pkl` model status monitor.
+
+---
+
+## 📁 Project Directory Structure
+
+```text
+HW2_Laptop-Price-Web/
+├── .github/
+│   └── workflows/
+│       ├── ml_pipeline.yml            # CI/CD training pipeline & GitHub Actions Step Summary
+│       └── static.yml                 # GitHub Pages automated deployment workflow
+├── train_model.py                     # CRISP-DM 6-Phase Multiple Linear Regression script
+├── plot_features_performance.py       # Forward Feature Selection analysis & plot generator
+├── app.py                             # Flask REST API backend & static file server
+├── requirements.txt                   # Project package dependencies
+├── laptop_price_model.pkl             # Serialized Scikit-Learn Pipeline model
+├── features_performance.png           # Dual-curve plot: RMSE & R² by Number of Features
+├── actual_vs_predicted.png            # Actual vs Predicted residual regression plot
+├── index.html                         # Root interactive web dashboard (for GitHub Pages)
+├── templates/
+│   └── index.html                     # Flask Jinja2 template source
+├── Laptop-Price-Web/                  # Subdirectory package distribution
+│   ├── train_model.py
+│   ├── plot_features_performance.py
+│   ├── app.py
+│   ├── requirements.txt
+│   ├── index.html
+│   ├── templates/
+│   └── README.md
+└── README.md                          # Repository documentation
+```
 
 ---
 
