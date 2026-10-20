@@ -1,172 +1,198 @@
-# Laptop Price Prediction Web Application
+<h1 align="center">Laptop Price Web & Predictor Component</h1>
 
-[![Python Version](https://img.shields.io/badge/python-3.9%20%7C%203.10%20%7C%203.11%20%7C%203.12-blue.svg)](https://www.python.org/)
-[![Framework](https://img.shields.io/badge/Framework-Flask-black?style=flat&logo=flask)](https://flask.palletsprojects.com/)
-[![Machine Learning](https://img.shields.io/badge/scikit--learn-Multiple%20Linear%20Regression-F7931E?style=flat&logo=scikit-learn&logoColor=white)](https://scikit-learn.org/)
-[![Methodology](https://img.shields.io/badge/Methodology-CRISP--DM-success)](https://en.wikipedia.org/wiki/Cross-industry_standard_process_for_data_mining)
-[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+<p align="center">
+  <img src="https://img.shields.io/badge/made%20by-charleslu1996-blue.svg" alt="Made by Charles">
+  <img src="https://img.shields.io/npm/v/laptop-price-predictor-web.svg" alt="NPM Version">
+  <img src="https://img.shields.io/badge/vue-2.x%20%7C%203.x-brightgreen.svg" alt="Vue Version">
+  <img src="https://img.shields.io/badge/python-3.9%20%7C%203.10%20%7C%203.11-blue.svg" alt="Python Version">
+  <img src="https://img.shields.io/badge/scikit--learn-LinearRegression-F7931E.svg?logo=scikit-learn&logoColor=white" alt="Scikit-Learn">
+  <img src="https://badges.frapsoft.com/os/v1/open-source.svg?v=103" alt="Open Source">
+  <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat" alt="PRs Welcome">
+  <img src="https://img.shields.io/badge/license-MIT-green.svg" alt="License">
+</p>
 
-An end-to-end Machine Learning web application and data science project implementing the **CRISP-DM** (Cross-Industry Standard Process for Data Mining) methodology to analyze, evaluate, and predict notebook/laptop market retail prices using **Multiple Linear Regression** (`scikit-learn`).
-
-The project is structured according to the clean, production-ready architecture inspired by `L5-1`.
+_A sleek, interactive Machine Learning web application and Vue component wrapper for predicting laptop retail prices using Scikit-Learn Multiple Linear Regression and CRISP-DM methodology._
 
 ---
 
-## 📁 Project Directory Structure
+The **Laptop Price Predictor** provides an end-to-end data-driven valuation engine for personal computers and notebooks. Featuring a modern dark glassmorphism interface, real-time spec calculation, dynamic Pixels Per Inch (PPI) deduction, Chart.js hardware radar balance, and Forward Feature Selection diagnostics (RMSE & R² curves).
 
-```text
-Laptop-Price-Web/
-├── train_model.py              # ML script implementing CRISP-DM 6 phases & exporting .pkl
-├── app.py                      # Flask backend API & web server
-├── requirements.txt            # Python package dependencies
-├── laptop_price_model.pkl      # Serialized Scikit-Learn Pipeline (generated after training)
-├── actual_vs_predicted.png     # Diagnostic residual & fit evaluation plot (generated)
-├── templates/
-│   └── index.html              # Responsive glassmorphism web simulator & input form
-└── README.md                   # Complete documentation & usage guide
+Redesigned and Wrapped for web & Vue.js integration by [Charles Lu](https://github.com/charleslu1996).
+
+# 🚀 [View Live Demo](https://charleslu1996.github.io/HW2_Laptop-Price-Web/)
+
+Experience the live interactive model simulation and feature performance dashboard directly in your web browser:
+
+👉 **[https://charleslu1996.github.io/HW2_Laptop-Price-Web/](https://charleslu1996.github.io/HW2_Laptop-Price-Web/)**
+
+<p align="center">
+  <img src="./actual_vs_predicted.png" alt="Laptop Price Predictor Demo" width="720">
+</p>
+
+---
+
+# Installation
+
+Install the package via **npm** or **yarn**:
+
+```bash
+# Using npm
+npm install --save laptop-price-predictor-web
+
+# Using yarn
+yarn add laptop-price-predictor-web
 ```
 
 ---
 
-## 🔬 CRISP-DM Methodology Implementation
+## Usage
 
-The machine learning workflow inside [`train_model.py`](train_model.py) strictly follows the **CRISP-DM 6 Phases**:
+### Global Usage
 
-| Phase | Description & Implementation |
-| :--- | :--- |
-| **1. Business Understanding** | Identify business objectives: helping buyers avoid overpriced hardware, assisting retailers with competitive pricing, and determining component upgrade value. |
-| **2. Data Understanding** | Load Kaggle laptop dataset from GitHub raw URL, inspect shape (1,303 laptops, 12 features), column types, missing values, and price distribution. |
-| **3. Data Preparation** | Clean raw strings (`Ram` to int, `Weight` to float), extract `Touchscreen` and `IPS` flags, compute display pixel density (`PPI = sqrt(w² + h²) / inches`), categorize CPU tiers, separate storage into `SSD` and `HDD` (GB), group GPU & OS categories, and construct `ColumnTransformer` with `OneHotEncoder`. |
-| **4. Modeling** | Build end-to-end Scikit-Learn `Pipeline` combining `OneHotEncoder` and `LinearRegression()`. Fit on 80% training data, extract intercept and regression coefficients. |
-| **5. Evaluation** | Evaluate test set performance using **MAE**, **MSE**, **RMSE**, and **$R^2$ Score**. Generate Actual vs. Predicted comparison table and export `actual_vs_predicted.png`. |
-| **6. Deployment** | Serialize trained pipeline into [`laptop_price_model.pkl`](laptop_price_model.pkl) using `pickle.dump()`. Verify end-to-end inference with an unseen sample laptop. |
+Global registration via the `Vue.use()` plugin method:
+
+```js
+// main.js
+import Vue from "vue";
+import App from "./App.vue";
+import router from "./router";
+
+// Import the plugin
+import LaptopPricePredictor from "laptop-price-predictor-web";
+
+Vue.config.productionTip = false;
+
+// Register the component globally
+Vue.use(LaptopPricePredictor);
+
+new Vue({
+  router,
+  render: h => h(App)
+}).$mount("#app");
+```
+
+### Component Template Usage
+
+Once registered, you can embed the component in your templates with default or customized hardware configurations:
+
+```html
+<template>
+  <div id="app">
+    <!-- Default Configuration -->
+    <LaptopPricePredictor
+      api-endpoint="http://localhost:5000/api/predict"
+      currency="INR"
+      :enable-radar-chart="true"
+      :enable-feature-analysis="true"
+      @on-predict="handlePrediction"
+      @on-spec-change="handleSpecChange"
+    />
+
+    <!-- Pre-configured Custom Spec -->
+    <LaptopPricePredictor
+      api-endpoint="https://your-api-domain.com/api/predict"
+      default-company="Apple"
+      default-type="Ultrabook"
+      default-cpu="Intel Core i5"
+      :default-ram="8"
+      :default-ssd="256"
+      default-gpu="Intel"
+      default-os="Mac"
+      :default-inches="13.3"
+      default-resolution="2560x1600"
+      :default-weight="1.37"
+      :enable-radar-chart="true"
+      @on-predict="handlePrediction"
+    />
+  </div>
+</template>
+
+<script>
+export default {
+  methods: {
+    handlePrediction(data) {
+      console.log("Estimated Price (INR):", data.predicted_price_inr);
+      console.log("Estimated Price (USD):", data.predicted_price_usd);
+      console.log("Estimated Price (TWD):", data.predicted_price_twd);
+      console.log("Inference Source:", data.source);
+    },
+    handleSpecChange(specs) {
+      console.log("Updated Specs:", specs);
+    }
+  }
+};
+</script>
+```
 
 ---
 
-## 🛠️ Tech Stack
+## Props
 
-- **Backend Web Server**: Python 3.9+, Flask, WSGI
-- **Machine Learning**: Scikit-Learn (`LinearRegression`, `Pipeline`, `ColumnTransformer`, `OneHotEncoder`, `train_test_split`)
-- **Data Engineering**: Pandas, NumPy
-- **Model Serialization**: Python `pickle` (`.pkl`)
-- **Visualization**: Matplotlib (residual plots), Chart.js (client-side radar spec chart)
-- **Frontend UI**: HTML5, Vanilla CSS3 (Glassmorphism, Dark Mode, CSS Grid & Flexbox, Plus Jakarta Sans & JetBrains Mono fonts)
+The component accepts the following configuration props:
+
+| Prop Name | Type | Default | Description |
+| :--- | :---: | :---: | :--- |
+| `api-endpoint` | `String` | `"/api/predict"` | Backend Flask API endpoint URL for model inference. |
+| `currency` | `String` | `"INR"` | Primary display currency (`"INR"`, `"USD"`, or `"TWD"`). |
+| `default-company` | `String` | `"Dell"` | Initial brand selection (`"Apple"`, `"Dell"`, `"HP"`, `"Lenovo"`, `"Asus"`, `"Acer"`, `"MSI"`). |
+| `default-type` | `String` | `"Notebook"` | Initial chassis category (`"Notebook"`, `"Ultrabook"`, `"Gaming"`, `"Workstation"`). |
+| `default-cpu` | `String` | `"Intel Core i7"` | Default CPU tier (`"Intel Core i7"`, `"Intel Core i5"`, `"Intel Core i3"`, `"AMD Processor"`). |
+| `default-ram` | `Number` | `16` | Initial RAM capacity in Gigabytes (4, 8, 12, 16, 24, 32, 64). |
+| `default-ssd` | `Number` | `512` | Primary fast SSD capacity in GB (0, 128, 256, 512, 1024, 2048). |
+| `default-hdd` | `Number` | `0` | Secondary HDD capacity in GB (0, 500, 1024, 2048). |
+| `default-gpu` | `String` | `"Nvidia"` | GPU manufacturer class (`"Nvidia"`, `"Intel"`, `"AMD"`). |
+| `default-os` | `String` | `"Windows"` | Operating system environment (`"Windows"`, `"Mac"`, `"Others/No OS/Linux"`). |
+| `default-inches` | `Number` | `15.6` | Diagonal screen size in inches (11.6, 12.5, 13.3, 14.0, 15.6, 17.3). |
+| `default-resolution` | `String` | `"1920x1080"` | Screen resolution string used for real-time PPI calculation. |
+| `default-touchscreen` | `Boolean` | `false` | Enables/disables the touchscreen digitizer specification. |
+| `default-ips` | `Boolean` | `true` | Enables/disables wide-viewing-angle IPS panel specification. |
+| `default-weight` | `Number` | `1.85` | Laptop chassis weight in kilograms (0.80 kg to 4.50 kg). |
+| `enable-radar-chart` | `Boolean` | `true` | Toggles the 5-axis Chart.js hardware spec balance radar chart. |
+| `enable-feature-analysis`| `Boolean` | `true` | Toggles the Forward Feature Selection (RMSE & R²) performance dashboard. |
+| `theme` | `String` | `"dark"` | UI theme mode (`"dark"` glassmorphism or `"light"` clean mode). |
 
 ---
 
-## 💻 Installation & Quickstart Guide
+## Events
 
-### 1. Create and Activate Virtual Environment
+The component emits the following events for custom application integration:
 
-- **Windows (PowerShell)**:
-  ```powershell
-  python -m venv .venv
-  .venv\Scripts\Activate.ps1
-  ```
+| Event Name | Parameters | Description |
+| :--- | :--- | :--- |
+| `@on-predict` | `(result: Object)` | Fired when a price prediction succeeds. Contains `predicted_price_inr`, `predicted_price_usd`, `predicted_price_twd`, `source`, and input attributes. |
+| `@on-spec-change` | `(specs: Object)` | Fired immediately whenever any hardware parameter (RAM, CPU, SSD, Screen, etc.) is modified. |
+| `@on-preset-select` | `(presetName: String)` | Fired when a quick preset button (`gaming`, `macbook`, `student`, `workstation`) is clicked. |
+| `@on-ppi-calculated`| `(ppi: Number)` | Fired when screen size or resolution changes and a new Pixel Density value is computed. |
+| `@on-error` | `(error: Object)` | Fired if the API request fails or network issues occur (falls back to local calibrated formula). |
 
-- **macOS / Linux**:
-  ```bash
-  python3 -m venv .venv
-  source .venv/bin/activate
-  ```
+---
 
-### 2. Install Required Dependencies
+## Python Backend & Model Training (CRISP-DM)
+
+If you wish to run the backend API server or retrain the Scikit-Learn regression pipeline locally:
+
 ```bash
+# 1. Install Python dependencies
 pip install -r requirements.txt
-```
 
-### 3. Train the Model (CRISP-DM Pipeline)
-Execute [`train_model.py`](train_model.py) to download the dataset, execute data preparation, fit the linear regression pipeline, generate evaluation metrics, and export `laptop_price_model.pkl`:
-```bash
+# 2. Train the Multiple Linear Regression Pipeline (Exports laptop_price_model.pkl)
 python train_model.py
-```
 
-### 4. Run the Web Application
-Start the Flask server:
-```bash
+# 3. Generate Forward Feature Selection Curves (Exports features_performance.png)
+python plot_features_performance.py
+
+# 4. Start the Flask Backend Server
 python app.py
 ```
-Open your browser and navigate to:
-👉 **[http://localhost:5000](http://localhost:5000)**
+
+Server endpoints will be active on **http://localhost:5000**:
+- `GET /` — Serves the interactive web interface.
+- `POST /api/predict` — Inference endpoint supporting JSON body and HTML form submissions.
+- `GET /api/predict` — Inference endpoint supporting URL query string parameters.
+- `GET /api/health` — Service health check & `.pkl` model status monitor.
 
 ---
 
-## 🌐 RESTful API Endpoints
+## License
 
-### 1. Valuation Inference Endpoint (`/api/predict`)
-
-- **Method**: `POST` (JSON or HTML Form) or `GET` (URL Query String)
-- **URL**: `http://localhost:5000/api/predict`
-
-#### Sample JSON Request:
-```bash
-curl -X POST http://localhost:5000/api/predict \
-  -H "Content-Type: application/json" \
-  -d '{
-    "Company": "Dell",
-    "TypeName": "Notebook",
-    "Cpu_brand": "Intel Core i7",
-    "Ram": 16,
-    "SSD": 512,
-    "HDD": 0,
-    "Gpu_brand": "Nvidia",
-    "OpSys": "Windows",
-    "Inches": 15.6,
-    "Resolution": "1920x1080",
-    "Touchscreen": 0,
-    "Ips": 1,
-    "Weight": 1.85
-  }'
-```
-
-#### Sample JSON Response:
-```json
-{
-  "status": "success",
-  "source": "scikit-learn pipeline (.pkl)",
-  "predicted_price_inr": 72480.50,
-  "predicted_price_usd": 873.26,
-  "predicted_price_twd": 27542.59,
-  "predicted_price_formatted": "₹ 72,480.50",
-  "inputs": {
-    "Company": "Dell",
-    "TypeName": "Notebook",
-    "Cpu_brand": "Intel Core i7",
-    "Ram": 16,
-    "SSD": 512,
-    "HDD": 0,
-    "Gpu_brand": "Nvidia",
-    "OpSys": "Windows",
-    "Inches": 15.6,
-    "Resolution": "1920x1080",
-    "Ppi": 141.21,
-    "Touchscreen": 0,
-    "Ips": 1,
-    "Weight": 1.85
-  }
-}
-```
-
-### 2. Health & Model Diagnostics (`/api/health`)
-
-- **Method**: `GET`
-- **URL**: `http://localhost:5000/api/health`
-
-#### Sample Response:
-```json
-{
-  "status": "healthy",
-  "model_loaded": true,
-  "model_file_exists": true,
-  "ml_dependencies_ready": true
-}
-```
-
----
-
-## 🎨 Frontend Web Simulator Highlights
-
-- **Dynamic PPI Engine**: Automatically derives screen pixel density whenever diagonal inches or resolution dropdown changes.
-- **Instant Presets**: 1-click presets for *High-End Gaming*, *MacBook Ultrabook*, *Student Budget*, and *Pro Workstation*.
-- **Interactive Radar Chart**: Visualizes balance across RAM, SSD, CPU, GPU, and Display density using Chart.js.
-- **Dual Inference Architecture**: Prioritizes live Flask backend API inference; automatically switches to high-accuracy client-side calibrated regression if executed on static hosts (e.g. GitHub Pages).
+This project is open-source and licensed under the [MIT License](LICENSE).
