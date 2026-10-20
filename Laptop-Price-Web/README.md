@@ -26,7 +26,9 @@ Experience the live interactive model simulation and feature performance dashboa
 👉 **[https://charleslu1996.github.io/HW2_Laptop-Price-Web/](https://charleslu1996.github.io/HW2_Laptop-Price-Web/)**
 
 <p align="center">
-  <img src="./actual_vs_predicted.png" alt="Laptop Price Predictor Demo" width="720">
+  <img src="./features_performance.png" alt="Features Performance Progression" width="760">
+  <br><br>
+  <img src="./actual_vs_predicted.png" alt="Actual vs Predicted Residual Plot" width="680">
 </p>
 
 ---
