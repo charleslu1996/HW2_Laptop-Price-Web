@@ -199,21 +199,23 @@ If you wish to run the backend API server or retrain the Scikit-Learn regression
 # 1. Install Python dependencies
 pip install -r requirements.txt
 
-# 2. Train the Multiple Linear Regression Pipeline (Exports laptop_price_model.pkl & actual_vs_predicted.png)
-python train_model.py
+# 2. Run Feature Progression Analysis (Generates progression curves & all_5_algorithms_comparison_plot.png)
+python feature_progression_analysis.py
 
-# 3. Generate Forward Feature Selection Curves (Exports features_performance.png)
-python plot_features_performance.py
+# 3. Train the Multiple Linear Regression Pipeline (CRISP-DM 6 Phases)
+python main.py
 
 # 4. Start the Flask Backend Server
 python app.py
 ```
 
 Server endpoints will be active on **http://localhost:5000**:
-- `GET /` — Serves the interactive web interface.
+- `GET /` — Serves the interactive StatsUnlock-styled web interface.
+- `GET /api/models` — Complete 5-algorithm feature selection evaluation registry.
 - `POST /api/predict` — Inference endpoint supporting JSON body and HTML form submissions.
 - `GET /api/predict` — Inference endpoint supporting URL query string parameters.
-- `GET /api/health` — Service health check & `.pkl` model status monitor.
+- `GET /api/summary` — Key comparison metrics across all 5 algorithms.
+- `GET /api/health` — Service health check & loaded algorithms status monitor.
 
 ---
 
@@ -223,28 +225,35 @@ Server endpoints will be active on **http://localhost:5000**:
 HW2_Laptop-Price-Web/
 ├── .github/
 │   └── workflows/
-│       ├── ml_pipeline.yml            # CI/CD training pipeline & GitHub Actions Step Summary
-│       └── static.yml                 # GitHub Pages automated deployment workflow
-├── train_model.py                     # CRISP-DM 6-Phase Multiple Linear Regression script
-├── plot_features_performance.py       # Forward Feature Selection analysis & plot generator
-├── app.py                             # Flask REST API backend & static file server
-├── requirements.txt                   # Project package dependencies
-├── laptop_price_model.pkl             # Serialized Scikit-Learn Pipeline model
-├── interactive_charts.png             # Interactive Chart.js feature performance dashboard preview
-├── features_performance.png           # Dual-curve plot: RMSE & R² by Number of Features
-├── actual_vs_predicted.png            # Actual vs Predicted residual regression plot
-├── index.html                         # Root interactive web dashboard (for GitHub Pages)
+│       ├── ml_pipeline.yml                   # CI/CD training pipeline & GitHub Actions Step Summary
+│       └── static.yml                        # GitHub Pages automated deployment workflow
+├── main.py                                   # CRISP-DM 6-Phase Multiple Linear Regression script
+├── feature_progression_analysis.py           # 5-Algorithm Feature Progression analysis & plot generator
+├── train_model.py                            # Pipeline training script
+├── plot_features_performance.py              # Single-algorithm feature selection script
+├── app.py                                    # Flask REST API backend & static file server
+├── requirements.txt                          # Project package dependencies
+├── model_data.json                           # Precomputed 5-algorithm feature progression registry
+├── model_data.js                             # Client-side model registry for GitHub Pages
+├── all_5_algorithms_comparison_plot.png      # Multi-algorithm comparison plot (Lasso, SFS, RFE, ElasticNet, Exhaustive)
+├── interactive_charts.png                    # Interactive Chart.js feature performance dashboard preview
+├── features_performance.png                  # Dual-curve plot: RMSE & R² by Number of Features
+├── actual_vs_predicted.png                   # Actual vs Predicted residual regression plot
+├── index.html                                # Root interactive web dashboard (for GitHub Pages)
 ├── templates/
-│   └── index.html                     # Flask Jinja2 template source
-├── Laptop-Price-Web/                  # Subdirectory package distribution
-│   ├── train_model.py
-│   ├── plot_features_performance.py
+│   └── index.html                            # Flask Jinja2 template source
+├── static/
+│   └── model_data.js                         # Static asset for Flask backend
+├── Laptop-Price-Web/                         # Subdirectory package distribution
+│   ├── main.py
+│   ├── feature_progression_analysis.py
 │   ├── app.py
-│   ├── requirements.txt
+│   ├── model_data.json
+│   ├── model_data.js
 │   ├── index.html
 │   ├── templates/
 │   └── README.md
-└── README.md                          # Repository documentation
+└── README.md                                 # Repository documentation
 ```
 
 ---
