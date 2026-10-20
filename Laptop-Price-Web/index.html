@@ -1056,7 +1056,14 @@
 
         <!-- View Tabs -->
         <div class="analysis-tabs">
-          <button class="tab-btn active" id="tab-btn-features-png" onclick="switchAnalysisTab('features-png')">
+          <button class="tab-btn active" id="tab-btn-interactive" onclick="switchAnalysisTab('interactive')">
+            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+            </svg>
+            📈 互動式圖表 (Chart.js)
+          </button>
+          <button class="tab-btn" id="tab-btn-features-png" onclick="switchAnalysisTab('features-png')">
             <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                 d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -1070,46 +1077,11 @@
             </svg>
             🎯 實際值 vs 預測值圖 (actual_vs_predicted.png)
           </button>
-          <button class="tab-btn" id="tab-btn-interactive" onclick="switchAnalysisTab('interactive')">
-            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-            </svg>
-            📈 互動式圖表 (Chart.js)
-          </button>
         </div>
       </div>
 
-      <!-- Tab 1: Matplotlib Static Plot (features_performance.png) - Active by default -->
-      <div id="tab-panel-features-png" class="tab-content-panel" style="display: block;">
-        <div class="image-display-panel">
-          <div style="margin-bottom: 0.75rem; font-weight: 700; color: #38bdf8; font-size: 1rem;">
-            📊 Laptop Price: Feature Progression Curves (RMSE & R-squared by Number of Features)
-          </div>
-          <img src="./features_performance.png" alt="Features Performance Plot"
-            style="max-width: 960px; width: 100%; height: auto; border-radius: 8px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7); border: 1px solid rgba(255, 255, 255, 0.15);">
-          <p class="image-caption">
-            由 <code>plot_features_performance.py</code> 執行前向特徵選擇自動產出之真實評估圖表 (完全對應專案特徵階梯)
-          </p>
-        </div>
-      </div>
-
-      <!-- Tab 2: Actual vs Predicted Residual Plot (actual_vs_predicted.png) -->
-      <div id="tab-panel-actual-pred" class="tab-content-panel" style="display: none;">
-        <div class="image-display-panel">
-          <div style="margin-bottom: 0.75rem; font-weight: 700; color: #10b981; font-size: 1rem;">
-            🎯 Laptop Price: Actual vs Predicted Price Scatter Plot
-          </div>
-          <img src="./actual_vs_predicted.png" alt="Actual vs Predicted Price Plot"
-            style="max-width: 900px; width: 100%; height: auto; border-radius: 8px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7); border: 1px solid rgba(255, 255, 255, 0.15);">
-          <p class="image-caption">
-            由 <code>train_model.py</code> 擬合多元線性迴歸產出之測試集預測散布圖 (45度紅色虛線為理想擬合基準線 y = ŷ)
-          </p>
-        </div>
-      </div>
-
-      <!-- Tab 3: Interactive Charts (Chart.js) -->
-      <div id="tab-panel-interactive" class="tab-content-panel" style="display: none;">
+      <!-- Tab 1: Interactive Charts (Chart.js) - Active by default -->
+      <div id="tab-panel-interactive" class="tab-content-panel" style="display: block;">
         <div class="charts-grid">
           <!-- Left: RMSE Chart -->
           <div class="chart-panel">
@@ -1132,6 +1104,34 @@
               <canvas id="r2Chart"></canvas>
             </div>
           </div>
+        </div>
+      </div>
+
+      <!-- Tab 2: Matplotlib Static Plot (features_performance.png) -->
+      <div id="tab-panel-features-png" class="tab-content-panel" style="display: none;">
+        <div class="image-display-panel">
+          <div style="margin-bottom: 0.75rem; font-weight: 700; color: #38bdf8; font-size: 1rem;">
+            📊 Laptop Price: Feature Progression Curves (RMSE & R-squared by Number of Features)
+          </div>
+          <img src="./features_performance.png" alt="Features Performance Plot"
+            style="max-width: 960px; width: 100%; height: auto; border-radius: 8px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7); border: 1px solid rgba(255, 255, 255, 0.15);">
+          <p class="image-caption">
+            由 <code>plot_features_performance.py</code> 執行前向特徵選擇自動產出之真實評估圖表 (完全對應專案特徵階梯)
+          </p>
+        </div>
+      </div>
+
+      <!-- Tab 3: Actual vs Predicted Residual Plot (actual_vs_predicted.png) -->
+      <div id="tab-panel-actual-pred" class="tab-content-panel" style="display: none;">
+        <div class="image-display-panel">
+          <div style="margin-bottom: 0.75rem; font-weight: 700; color: #10b981; font-size: 1rem;">
+            🎯 Laptop Price: Actual vs Predicted Price Scatter Plot
+          </div>
+          <img src="./actual_vs_predicted.png" alt="Actual vs Predicted Price Plot"
+            style="max-width: 900px; width: 100%; height: auto; border-radius: 8px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7); border: 1px solid rgba(255, 255, 255, 0.15);">
+          <p class="image-caption">
+            由 <code>train_model.py</code> 擬合多元線性迴歸產出之測試集預測散布圖 (45度紅色虛線為理想擬合基準線 y = ŷ)
+          </p>
         </div>
       </div>
 
