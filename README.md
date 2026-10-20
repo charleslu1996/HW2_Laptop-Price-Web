@@ -27,9 +27,7 @@ Experience the live interactive model simulation and feature performance dashboa
 👉 **[https://charleslu1996.github.io/HW2_Laptop-Price-Web/](https://charleslu1996.github.io/HW2_Laptop-Price-Web/)**
 
 <p align="center">
-  <img src="./features_performance.png" alt="Features Performance Progression" width="760">
-  <br><br>
-  <img src="./actual_vs_predicted.png" alt="Actual vs Predicted Residual Plot" width="680">
+  <img src="./interactive_charts.png" alt="Interactive Feature Performance Progression (RMSE & R²)" width="880">
 </p>
 
 ---
@@ -232,6 +230,7 @@ HW2_Laptop-Price-Web/
 ├── app.py                             # Flask REST API backend & static file server
 ├── requirements.txt                   # Project package dependencies
 ├── laptop_price_model.pkl             # Serialized Scikit-Learn Pipeline model
+├── interactive_charts.png             # Interactive Chart.js feature performance dashboard preview
 ├── features_performance.png           # Dual-curve plot: RMSE & R² by Number of Features
 ├── actual_vs_predicted.png            # Actual vs Predicted residual regression plot
 ├── index.html                         # Root interactive web dashboard (for GitHub Pages)
