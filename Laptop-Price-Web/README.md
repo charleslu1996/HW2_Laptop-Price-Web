@@ -314,13 +314,12 @@ All 5 algorithms were benchmarked across feature counts $k=1 \dots 6$ on the out
 
 We gratefully acknowledge the following references, datasets, and open-source projects:
 
-1. **Architecture & Repository Reference**:
-   - [AIoT-DIC2-MultipleLR (huanchen1107)](https://github.com/huanchen1107/AIoT-DIC2-MultipleLR): Repository structure, CRISP-DM methodology, and multi-algorithm evaluation design.
-2. **Design & Layout Reference**:
+
+1. **Design & Layout Reference**:
    - [StatsUnlock Multiple Linear Regression Calculator](https://statsunlock.com/multiple-linear-regression-calculator/): Inspired the SaaS aesthetic, coefficient tables, VIF multicollinearity gauges, and statistical reporting layout.
-3. **Dataset**:
+2. **Dataset**:
    - [Kaggle Laptop Price Predictor Dataset](https://raw.githubusercontent.com/jeeniagogoi1/Laptop-Price-predictor/refs/heads/main/laptop_data.csv).
-4. **Core Libraries**:
+3. **Core Libraries**:
    - [Flask](https://flask.palletsprojects.com/): Python micro web framework.
    - [Scikit-learn](https://scikit-learn.org/): For LassoCV, ElasticNetCV, SequentialFeatureSelector, and RFE.
    - [Chart.js](https://www.chartjs.org/): For interactive dual-panel line charts.

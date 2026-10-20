@@ -8,7 +8,7 @@
   <!-- Google Fonts: Outfit, Inter, Fira Code -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700;800;900&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
   
   <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -21,35 +21,58 @@
 
   <style>
     :root {
-      --primary-dark: #343090;
-      --primary: #4f46e5;
-      --primary-light: #6366f1;
-      --primary-subtle: #eef2ff;
-      --accent-blue: #3b82f6;
-      --accent-emerald: #10b981;
-      --accent-emerald-subtle: #ecfdf5;
-      --accent-amber: #f59e0b;
-      --accent-amber-subtle: #fffbeb;
-      --accent-rose: #f43f5e;
-      --accent-rose-subtle: #fff1f2;
-      --slate-50: #f8fafc;
-      --slate-100: #f1f5f9;
-      --slate-200: #e2e8f0;
-      --slate-300: #cbd5e1;
-      --slate-400: #94a3b8;
-      --slate-500: #64748b;
-      --slate-600: #475569;
-      --slate-700: #334155;
-      --slate-800: #1e293b;
-      --slate-900: #0f172a;
+      /* Base & Surfaces */
+      --bg-dark: #0a0d18;
+      --bg-surface: rgba(16, 22, 38, 0.85);
+      --bg-card: rgba(19, 27, 48, 0.72);
+      --bg-card-hover: rgba(27, 38, 68, 0.85);
+      --bg-input: rgba(11, 16, 29, 0.9);
+      
+      /* Vibrant Cyber Accents */
+      --primary: #6366f1;
+      --primary-gradient: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #d946ef 100%);
+      --primary-glow: rgba(99, 102, 241, 0.35);
+      
+      --cyan: #06b6d4;
+      --cyan-gradient: linear-gradient(135deg, #06b6d4 0%, #38bdf8 100%);
+      --cyan-glow: rgba(6, 182, 212, 0.35);
+      
+      --emerald: #10b981;
+      --emerald-gradient: linear-gradient(135deg, #10b981 0%, #34d399 100%);
+      --emerald-glow: rgba(16, 185, 129, 0.35);
+      
+      --amber: #f59e0b;
+      --amber-gradient: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
+      --amber-glow: rgba(245, 158, 11, 0.35);
+      
+      --rose: #f43f5e;
+      --rose-gradient: linear-gradient(135deg, #f43f5e 0%, #fb7185 100%);
+      --rose-glow: rgba(244, 63, 94, 0.35);
+      
+      --purple: #a855f7;
+      --purple-gradient: linear-gradient(135deg, #a855f7 0%, #c084fc 100%);
+      --purple-glow: rgba(168, 85, 247, 0.35);
+
+      /* Borders & Shadows */
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-card: rgba(255, 255, 255, 0.1);
+      --border-focus: #6366f1;
+      
+      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.4);
+      --shadow-md: 0 8px 24px -4px rgba(0, 0, 0, 0.6);
+      --shadow-lg: 0 16px 40px -6px rgba(0, 0, 0, 0.7);
+      --shadow-neon: 0 0 25px rgba(99, 102, 241, 0.3);
+
+      /* Typography */
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      
+      /* Radius */
       --radius-sm: 8px;
-      --radius-md: 12px;
-      --radius-lg: 16px;
-      --radius-xl: 20px;
-      --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
-      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
-      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
-      --shadow-glow: 0 0 20px rgba(79, 70, 229, 0.15);
+      --radius-md: 14px;
+      --radius-lg: 18px;
+      --radius-xl: 24px;
     }
 
     * {
@@ -60,39 +83,49 @@
 
     body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      background-color: var(--slate-50);
-      color: var(--slate-800);
+      background-color: var(--bg-dark);
+      background-image: 
+        radial-gradient(circle at 15% 10%, rgba(99, 102, 241, 0.15) 0%, transparent 45%),
+        radial-gradient(circle at 85% 25%, rgba(6, 182, 212, 0.12) 0%, transparent 40%),
+        radial-gradient(circle at 50% 75%, rgba(168, 85, 247, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 20% 90%, rgba(16, 185, 129, 0.1) 0%, transparent 40%);
+      background-attachment: fixed;
+      color: var(--text-main);
       line-height: 1.5;
       -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
     }
 
     h1, h2, h3, h4, .font-heading {
       font-family: 'Outfit', sans-serif;
       font-weight: 700;
-      color: var(--slate-900);
+      color: var(--text-main);
+      letter-spacing: -0.02em;
     }
 
     .container {
-      max-width: 1380px;
+      max-width: 1400px;
       margin: 0 auto;
-      padding: 24px 20px 60px;
+      padding: 24px 24px 60px;
     }
 
-    /* Top Breadcrumb & Header */
+    /* Top Sticky Header */
     .top-header {
-      background: white;
-      border-bottom: 1px solid var(--slate-200);
+      background: rgba(10, 13, 24, 0.8);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border-subtle);
       padding: 16px 0;
       position: sticky;
       top: 0;
       z-index: 100;
-      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
     }
 
     .header-inner {
-      max-width: 1380px;
+      max-width: 1400px;
       margin: 0 auto;
-      padding: 0 20px;
+      padding: 0 24px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -105,38 +138,41 @@
       align-items: center;
       gap: 8px;
       font-size: 13px;
-      color: var(--slate-500);
+      color: var(--text-dim);
       margin-bottom: 4px;
     }
 
     .breadcrumbs a {
-      color: var(--slate-500);
+      color: var(--text-muted);
       text-decoration: none;
-      transition: color 0.15s;
+      transition: color 0.2s;
     }
 
     .breadcrumbs a:hover {
-      color: var(--primary);
+      color: var(--cyan);
     }
 
     .header-title-group h1 {
       font-size: 24px;
-      letter-spacing: -0.02em;
-      color: var(--slate-900);
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
+      background: linear-gradient(to right, #ffffff, #c7d2fe);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
     .brand-badge {
-      background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+      background: var(--primary-gradient);
       color: white;
       font-size: 11px;
-      font-weight: 700;
-      padding: 3px 9px;
+      font-weight: 800;
+      padding: 4px 10px;
       border-radius: 9999px;
-      letter-spacing: 0.04em;
+      letter-spacing: 0.06em;
       text-transform: uppercase;
+      box-shadow: 0 0 15px rgba(99, 102, 241, 0.5);
+      -webkit-text-fill-color: white;
     }
 
     .header-actions {
@@ -149,32 +185,33 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      background: var(--slate-100);
-      color: var(--slate-700);
-      border: 1px solid var(--slate-200);
-      padding: 8px 14px;
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-muted);
+      border: 1px solid var(--border-subtle);
+      padding: 8px 16px;
       border-radius: var(--radius-md);
       font-size: 13px;
       font-weight: 600;
       text-decoration: none;
-      transition: all 0.2s;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .ref-btn:hover {
-      background: white;
-      border-color: var(--primary-light);
-      color: var(--primary);
-      box-shadow: var(--shadow-sm);
+      background: rgba(99, 102, 241, 0.15);
+      border-color: var(--primary);
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
     }
 
-    /* Hero Banner */
+    /* Hero Banner Card */
     .hero-card {
-      background: linear-gradient(135deg, #1e1b4b 0%, #312e81 40%, #3730a3 100%);
-      color: white;
+      background: linear-gradient(135deg, rgba(30, 27, 75, 0.95) 0%, rgba(49, 46, 129, 0.85) 45%, rgba(15, 23, 42, 0.95) 100%);
+      border: 1px solid rgba(129, 140, 248, 0.25);
       border-radius: var(--radius-xl);
-      padding: 36px 40px;
+      padding: 38px 42px;
       margin-bottom: 28px;
-      box-shadow: var(--shadow-lg);
+      box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.6), 0 0 30px rgba(99, 102, 241, 0.15);
       position: relative;
       overflow: hidden;
     }
@@ -182,161 +219,176 @@
     .hero-card::after {
       content: '';
       position: absolute;
-      top: -60px;
-      right: -60px;
-      width: 320px;
-      height: 320px;
-      background: radial-gradient(circle, rgba(99, 102, 241, 0.25) 0%, transparent 70%);
+      top: -80px;
+      right: -80px;
+      width: 360px;
+      height: 360px;
+      background: radial-gradient(circle, rgba(6, 182, 212, 0.25) 0%, rgba(99, 102, 241, 0.15) 40%, transparent 70%);
       pointer-events: none;
     }
 
     .hero-card h2 {
-      font-size: 30px;
+      font-size: 32px;
       color: white;
       margin-bottom: 12px;
       line-height: 1.25;
+      background: linear-gradient(135deg, #ffffff 0%, #e0e7ff 60%, #38bdf8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
     .hero-card p {
-      font-size: 15px;
-      color: #c7d2fe;
-      max-width: 860px;
-      line-height: 1.6;
+      font-size: 15.5px;
+      color: #cbd5e1;
+      max-width: 900px;
+      line-height: 1.65;
     }
 
     .hero-tags {
       display: flex;
-      gap: 10px;
+      gap: 12px;
       flex-wrap: wrap;
-      margin-top: 20px;
+      margin-top: 22px;
     }
 
     .hero-pill {
-      background: rgba(255, 255, 255, 0.12);
-      backdrop-filter: blur(8px);
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      color: #e0e7ff;
-      font-size: 12px;
-      font-weight: 500;
-      padding: 5px 12px;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      color: #e2e8f0;
+      font-size: 12.5px;
+      font-weight: 600;
+      padding: 6px 14px;
       border-radius: 9999px;
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
+      transition: all 0.2s;
     }
 
-    /* Main Grid & Cards */
-    .main-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 24px;
+    .hero-pill:hover {
+      background: rgba(255, 255, 255, 0.14);
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-1px);
     }
 
+    /* Cards */
     .card {
-      background: white;
+      background: var(--bg-card);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       border-radius: var(--radius-lg);
-      border: 1px solid var(--slate-200);
-      box-shadow: var(--shadow-sm);
-      padding: 24px;
-      transition: box-shadow 0.2s, border-color 0.2s;
+      border: 1px solid var(--border-card);
+      box-shadow: var(--shadow-md);
+      padding: 26px;
+      transition: all 0.25s ease;
+      position: relative;
     }
 
     .card:hover {
-      box-shadow: var(--shadow-md);
-      border-color: #cbd5e1;
+      background: var(--bg-card-hover);
+      border-color: rgba(99, 102, 241, 0.35);
+      box-shadow: 0 12px 30px -4px rgba(0, 0, 0, 0.7), 0 0 20px rgba(99, 102, 241, 0.12);
     }
 
     .card-header {
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
-      margin-bottom: 20px;
+      margin-bottom: 22px;
       flex-wrap: wrap;
       gap: 12px;
     }
 
     .card-title-group h3 {
-      font-size: 18px;
-      color: var(--slate-900);
+      font-size: 19px;
+      color: white;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
     }
 
     .card-subtitle {
       font-size: 13px;
-      color: var(--slate-500);
-      margin-top: 2px;
+      color: var(--text-muted);
+      margin-top: 4px;
     }
 
-    /* Controls Bar */
+    /* Controls Bar Wrapper */
     .controls-wrapper {
-      background: white;
+      background: rgba(19, 27, 48, 0.85);
+      backdrop-filter: blur(20px);
       border-radius: var(--radius-lg);
-      border: 1px solid var(--slate-200);
-      box-shadow: var(--shadow-sm);
-      padding: 20px 24px;
-      margin-bottom: 24px;
+      border: 1px solid rgba(129, 140, 248, 0.2);
+      box-shadow: var(--shadow-md), 0 0 25px rgba(99, 102, 241, 0.1);
+      padding: 24px 28px;
+      margin-bottom: 26px;
     }
 
     .control-label {
-      font-size: 11px;
-      font-weight: 700;
+      font-size: 11.5px;
+      font-weight: 800;
       text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: var(--slate-400);
-      margin-bottom: 10px;
-      display: block;
+      letter-spacing: 0.08em;
+      color: #818cf8;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
 
     .tabs-pills {
       display: flex;
       flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 20px;
+      gap: 10px;
+      margin-bottom: 22px;
     }
 
     .tab-btn {
-      padding: 10px 18px;
-      background: var(--slate-50);
-      border: 1px solid var(--slate-200);
+      padding: 10px 20px;
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid var(--border-subtle);
       border-radius: var(--radius-md);
       font-size: 13.5px;
       font-weight: 600;
-      color: var(--slate-700);
+      color: #cbd5e1;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      transition: all 0.2s;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .tab-btn:hover {
-      background: var(--primary-subtle);
-      border-color: var(--primary-light);
-      color: var(--primary);
+      background: rgba(99, 102, 241, 0.18);
+      border-color: rgba(99, 102, 241, 0.45);
+      color: white;
+      transform: translateY(-2px);
     }
 
     .tab-btn.active {
-      background: var(--primary-dark);
-      border-color: var(--primary-dark);
+      background: var(--primary-gradient);
+      border-color: rgba(255, 255, 255, 0.3);
       color: white;
-      box-shadow: 0 4px 10px rgba(52, 48, 144, 0.25);
+      box-shadow: 0 0 20px rgba(99, 102, 241, 0.5), 0 4px 12px rgba(0, 0, 0, 0.3);
+      transform: translateY(-2px);
     }
 
     .tab-btn .badge-pill {
       font-size: 10px;
-      padding: 2px 7px;
+      padding: 2px 8px;
       border-radius: 9999px;
-      background: rgba(0, 0, 0, 0.06);
+      background: rgba(255, 255, 255, 0.1);
+      color: #e2e8f0;
     }
 
     .tab-btn.active .badge-pill {
-      background: rgba(255, 255, 255, 0.25);
+      background: rgba(0, 0, 0, 0.25);
       color: white;
     }
 
-    /* Feature Count Step Buttons */
+    /* K-Selector Step Buttons */
     .k-selector-group {
       display: flex;
       align-items: center;
@@ -345,67 +397,79 @@
     }
 
     .k-btn {
-      padding: 9px 16px;
-      border: 1px solid var(--slate-200);
-      background: white;
+      padding: 10px 18px;
+      border: 1px solid var(--border-subtle);
+      background: rgba(15, 23, 42, 0.6);
       border-radius: var(--radius-md);
-      font-size: 13px;
+      font-size: 13.5px;
       font-weight: 600;
-      color: var(--slate-700);
+      color: #94a3b8;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      transition: all 0.2s;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .k-btn:hover {
-      border-color: var(--primary);
-      color: var(--primary);
+      border-color: var(--cyan);
+      color: white;
+      background: rgba(6, 182, 212, 0.12);
+      transform: translateY(-2px);
     }
 
     .k-btn.active {
-      background: var(--primary);
-      border-color: var(--primary);
-      color: white;
-      box-shadow: 0 4px 10px rgba(79, 70, 229, 0.25);
+      background: var(--cyan-gradient);
+      border-color: transparent;
+      color: #042f2e;
+      font-weight: 700;
+      box-shadow: 0 0 20px rgba(6, 182, 212, 0.5);
+      transform: translateY(-2px);
     }
 
+    /* Sweet Spot Highlight Animation */
     .k-btn.sweet-spot {
-      border-color: var(--accent-emerald);
-      background: var(--accent-emerald-subtle);
-      color: #065f46;
+      border: 1.5px solid var(--emerald);
+      background: rgba(16, 185, 129, 0.12);
+      color: #34d399;
     }
 
     .k-btn.sweet-spot.active {
-      background: #059669;
-      border-color: #059669;
-      color: white;
-      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+      background: var(--emerald-gradient);
+      border-color: transparent;
+      color: #022c22;
+      box-shadow: 0 0 25px rgba(16, 185, 129, 0.6);
+      animation: pulseGlow 2.5s infinite;
     }
 
-    /* Metrics Grid */
+    @keyframes pulseGlow {
+      0%, 100% { box-shadow: 0 0 20px rgba(16, 185, 129, 0.5); }
+      50% { box-shadow: 0 0 35px rgba(16, 185, 129, 0.85); }
+    }
+
+    /* Metrics Grid (5 KPI Cards with Vivid Colors) */
     .metrics-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-      gap: 16px;
-      margin-bottom: 24px;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px;
+      margin-bottom: 26px;
     }
 
     .metric-card {
-      background: white;
+      background: rgba(19, 27, 48, 0.75);
+      backdrop-filter: blur(14px);
       border-radius: var(--radius-lg);
-      border: 1px solid var(--slate-200);
-      padding: 20px;
+      border: 1px solid var(--border-card);
+      padding: 22px;
       position: relative;
       overflow: hidden;
       box-shadow: var(--shadow-sm);
-      transition: all 0.2s;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .metric-card:hover {
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-md);
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md), 0 0 20px rgba(99, 102, 241, 0.2);
     }
 
     .metric-card::before {
@@ -415,126 +479,150 @@
       left: 0;
       right: 0;
       height: 4px;
-      background: var(--primary);
+      background: var(--primary-gradient);
     }
 
-    .metric-card.sweet::before {
-      background: var(--accent-emerald);
-    }
+    .metric-card.card-cyan::before { background: var(--cyan-gradient); }
+    .metric-card.card-emerald::before { background: var(--emerald-gradient); }
+    .metric-card.card-purple::before { background: var(--purple-gradient); }
+    .metric-card.card-amber::before { background: var(--amber-gradient); }
+    .metric-card.card-rose::before { background: var(--rose-gradient); }
 
     .metric-title {
       font-size: 12px;
-      font-weight: 600;
-      color: var(--slate-500);
+      font-weight: 700;
+      color: var(--text-muted);
       text-transform: uppercase;
-      letter-spacing: 0.04em;
-      margin-bottom: 8px;
+      letter-spacing: 0.06em;
+      margin-bottom: 10px;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
     .metric-val {
-      font-size: 26px;
+      font-size: 28px;
       font-family: 'Outfit', sans-serif;
-      font-weight: 700;
-      color: var(--slate-900);
+      font-weight: 800;
       line-height: 1.1;
-      margin-bottom: 6px;
+      margin-bottom: 8px;
+      letter-spacing: -0.02em;
     }
+
+    .card-cyan .metric-val { color: #38bdf8; text-shadow: 0 0 15px rgba(56, 189, 248, 0.4); }
+    .card-emerald .metric-val { color: #34d399; text-shadow: 0 0 15px rgba(52, 211, 153, 0.4); }
+    .card-purple .metric-val { color: #c084fc; text-shadow: 0 0 15px rgba(192, 132, 252, 0.4); }
+    .card-amber .metric-val { color: #fbbf24; text-shadow: 0 0 15px rgba(251, 191, 36, 0.4); }
+    .card-rose .metric-val { color: #fb7185; text-shadow: 0 0 15px rgba(251, 113, 133, 0.4); }
 
     .metric-note {
       font-size: 12px;
-      color: var(--slate-500);
+      color: var(--text-dim);
       display: flex;
       align-items: center;
-      gap: 4px;
+      gap: 6px;
     }
 
+    /* Badge Tags */
     .badge-tag {
       font-size: 11px;
-      font-weight: 600;
-      padding: 2px 8px;
+      font-weight: 700;
+      padding: 3px 10px;
       border-radius: 9999px;
       display: inline-flex;
       align-items: center;
-      gap: 4px;
+      gap: 5px;
     }
 
     .badge-green {
-      background: var(--accent-emerald-subtle);
-      color: #065f46;
-      border: 1px solid #a7f3d0;
+      background: rgba(16, 185, 129, 0.18);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.35);
+      box-shadow: 0 0 10px rgba(16, 185, 129, 0.2);
     }
 
     .badge-blue {
-      background: var(--primary-subtle);
-      color: var(--primary-dark);
-      border: 1px solid #c7d2fe;
+      background: rgba(6, 182, 212, 0.18);
+      color: #38bdf8;
+      border: 1px solid rgba(6, 182, 212, 0.35);
+      box-shadow: 0 0 10px rgba(6, 182, 212, 0.2);
     }
 
     .badge-amber {
-      background: var(--accent-amber-subtle);
-      color: #92400e;
-      border: 1px solid #fde68a;
+      background: rgba(245, 158, 11, 0.18);
+      color: #fbbf24;
+      border: 1px solid rgba(245, 158, 11, 0.35);
     }
 
-    /* Dual Charts Grid */
-    .dual-charts-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
-      gap: 24px;
-      margin-bottom: 24px;
+    .feature-chip {
+      background: rgba(99, 102, 241, 0.14);
+      color: #a5b4fc;
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      font-weight: 600;
+      padding: 5px 12px;
+      border-radius: 8px;
+      font-size: 12.5px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
     }
 
-    .chart-container {
-      position: relative;
-      height: 340px;
-      width: 100%;
+    .feature-chip:hover {
+      background: rgba(99, 102, 241, 0.25);
+      border-color: var(--primary);
+      color: white;
+      transform: translateY(-1px);
     }
 
-    /* Mathematical Equation Box */
+    /* Equation Box (Cyber Code Block) */
     .equation-card {
-      background: linear-gradient(to right, #fcfdff, #f8faff);
-      border: 1px solid #cfcfea;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(129, 140, 248, 0.3);
       border-left: 5px solid var(--primary);
       border-radius: var(--radius-md);
-      padding: 20px 24px;
-      margin-bottom: 24px;
+      padding: 22px 26px;
+      margin-bottom: 26px;
+      box-shadow: var(--shadow-sm);
     }
 
     .equation-title {
       font-size: 12px;
-      font-weight: 700;
+      font-weight: 800;
       text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: var(--primary);
-      margin-bottom: 8px;
+      letter-spacing: 0.08em;
+      color: #818cf8;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
 
     .equation-formula {
       font-family: 'Fira Code', monospace;
-      font-size: 14px;
-      color: var(--slate-900);
-      line-height: 1.8;
+      font-size: 14.5px;
+      color: #f1f5f9;
+      line-height: 1.85;
       word-break: break-word;
-      background: white;
-      padding: 14px 18px;
+      background: rgba(10, 14, 26, 0.95);
+      padding: 16px 20px;
       border-radius: var(--radius-sm);
-      border: 1px solid var(--slate-200);
-      box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.5);
     }
 
-    .eq-intercept { color: #4338ca; font-weight: 600; }
-    .eq-var { color: #0284c7; font-weight: 600; }
-    .eq-pos { color: #059669; font-weight: 600; }
-    .eq-neg { color: #dc2626; font-weight: 600; }
+    .eq-target { color: #f43f5e; font-weight: 700; }
+    .eq-intercept { color: #818cf8; font-weight: 700; }
+    .eq-var { color: #38bdf8; font-weight: 600; }
+    .eq-pos { color: #34d399; font-weight: 700; margin: 0 4px; }
+    .eq-neg { color: #fb7185; font-weight: 700; margin: 0 4px; }
 
     /* Tables */
     .table-responsive {
       overflow-x: auto;
       border-radius: var(--radius-md);
-      border: 1px solid var(--slate-200);
+      border: 1px solid var(--border-subtle);
+      background: rgba(15, 23, 42, 0.6);
     }
 
     table.data-table {
@@ -545,52 +633,55 @@
     }
 
     table.data-table thead {
-      background: var(--slate-100);
-      border-bottom: 1px solid var(--slate-200);
+      background: rgba(30, 41, 59, 0.85);
+      border-bottom: 1px solid var(--border-subtle);
     }
 
     table.data-table th {
-      padding: 12px 16px;
-      font-weight: 600;
-      color: var(--slate-700);
+      padding: 14px 18px;
+      font-weight: 700;
+      color: #cbd5e1;
       font-size: 12px;
       text-transform: uppercase;
-      letter-spacing: 0.03em;
+      letter-spacing: 0.05em;
     }
 
     table.data-table td {
-      padding: 13px 16px;
-      border-bottom: 1px solid var(--slate-100);
-      color: var(--slate-700);
-    }
-
-    table.data-table tbody tr:last-child td {
-      border-bottom: none;
+      padding: 14px 18px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      color: #e2e8f0;
     }
 
     table.data-table tbody tr:hover {
-      background: #f8faff;
+      background: rgba(99, 102, 241, 0.08);
     }
 
-    .feature-chip {
-      background: var(--primary-subtle);
-      color: var(--primary-dark);
-      font-weight: 600;
-      padding: 3px 8px;
-      border-radius: 6px;
-      font-size: 12px;
-      display: inline-block;
+    /* Dual Charts Grid */
+    .dual-charts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
+      gap: 24px;
+      margin-bottom: 26px;
+    }
+
+    .chart-container {
+      position: relative;
+      height: 350px;
+      width: 100%;
     }
 
     /* Interactive Calculator Section */
     .calc-grid {
       display: grid;
-      grid-template-columns: 1.4fr 1fr;
-      gap: 24px;
+      grid-template-columns: 1.35fr 1fr;
+      gap: 26px;
     }
 
-    @media (max-width: 900px) {
+    @media (max-width: 960px) {
       .calc-grid {
+        grid-template-columns: 1fr;
+      }
+      .dual-charts-grid {
         grid-template-columns: 1fr;
       }
     }
@@ -617,44 +708,49 @@
       margin-bottom: 6px;
       font-size: 13px;
       font-weight: 600;
-      color: var(--slate-700);
+      color: #cbd5e1;
     }
 
     .input-field {
       width: 100%;
       padding: 10px 14px;
-      border: 1px solid var(--slate-300);
+      border: 1px solid rgba(255, 255, 255, 0.12);
       border-radius: var(--radius-md);
       font-size: 14px;
       font-family: inherit;
-      color: var(--slate-900);
-      background: white;
-      transition: all 0.15s;
+      color: white;
+      background: var(--bg-input);
+      transition: all 0.2s;
     }
 
     .input-field:focus {
       outline: none;
       border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25), 0 0 15px rgba(99, 102, 241, 0.2);
     }
 
     .range-slider {
       width: 100%;
-      margin-top: 6px;
-      accent-color: var(--primary);
+      margin-top: 8px;
+      accent-color: var(--cyan);
+      height: 6px;
+      border-radius: 9999px;
+      background: rgba(255, 255, 255, 0.1);
+      cursor: pointer;
     }
 
+    /* Prediction Holographic Output Box */
     .prediction-output-box {
-      background: linear-gradient(135deg, #312e81 0%, #1e1b4b 100%);
-      color: white;
+      background: linear-gradient(135deg, rgba(30, 27, 75, 0.95) 0%, rgba(49, 46, 129, 0.9) 45%, rgba(6, 78, 59, 0.9) 100%);
+      border: 1px solid rgba(56, 189, 248, 0.3);
       border-radius: var(--radius-lg);
-      padding: 30px;
+      padding: 34px 28px;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       text-align: center;
-      box-shadow: var(--shadow-md);
+      box-shadow: var(--shadow-lg), 0 0 35px rgba(6, 182, 212, 0.2);
       position: relative;
       overflow: hidden;
     }
@@ -662,49 +758,60 @@
     .prediction-output-box::before {
       content: '';
       position: absolute;
-      top: -40px;
-      right: -40px;
-      width: 160px;
-      height: 160px;
-      background: radial-gradient(circle, rgba(16, 185, 129, 0.3) 0%, transparent 70%);
+      top: -50px;
+      right: -50px;
+      width: 180px;
+      height: 180px;
+      background: radial-gradient(circle, rgba(56, 189, 248, 0.3) 0%, transparent 70%);
       pointer-events: none;
     }
 
     .pred-label {
-      font-size: 12px;
-      font-weight: 600;
+      font-size: 12.5px;
+      font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: #cbd5e1;
+      letter-spacing: 0.1em;
+      color: #93c5fd;
       margin-bottom: 8px;
     }
 
     .pred-value {
-      font-size: 38px;
+      font-size: 42px;
       font-family: 'Outfit', sans-serif;
-      font-weight: 800;
+      font-weight: 900;
       color: #38bdf8;
       line-height: 1.1;
-      margin-bottom: 12px;
-      text-shadow: 0 2px 10px rgba(56, 189, 248, 0.25);
+      margin-bottom: 14px;
+      text-shadow: 0 0 25px rgba(56, 189, 248, 0.55);
+      letter-spacing: -0.02em;
     }
 
     .pred-subvalues {
       display: flex;
       gap: 16px;
-      margin-bottom: 16px;
-      font-size: 13px;
-      color: #e2e8f0;
+      margin-bottom: 18px;
+      font-size: 13.5px;
+      color: #f1f5f9;
       font-weight: 600;
     }
 
+    .pred-badge {
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 4px 12px;
+      border-radius: 9999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
     .pred-formula-note {
-      font-size: 12px;
-      color: #94a3b8;
-      max-width: 90%;
-      line-height: 1.5;
-      border-top: 1px solid rgba(255, 255, 255, 0.12);
-      padding-top: 14px;
+      font-size: 12.5px;
+      color: #cbd5e1;
+      max-width: 95%;
+      line-height: 1.6;
+      border-top: 1px solid rgba(255, 255, 255, 0.15);
+      padding-top: 16px;
       width: 100%;
     }
 
@@ -713,99 +820,115 @@
       height: 8px;
       border-radius: 50%;
       display: inline-block;
-      margin-right: 4px;
+      margin-right: 5px;
     }
-    .dot-green { background-color: var(--accent-emerald); }
-    .dot-amber { background-color: var(--accent-amber); }
+    .dot-green { background-color: var(--emerald); box-shadow: 0 0 8px var(--emerald); }
+    .dot-amber { background-color: var(--amber); box-shadow: 0 0 8px var(--amber); }
 
     /* Visualizations Tabs */
     .viz-tabs-nav {
       display: flex;
-      gap: 8px;
-      margin-bottom: 16px;
-      border-bottom: 1px solid var(--slate-200);
-      padding-bottom: 12px;
+      gap: 10px;
+      margin-bottom: 18px;
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 14px;
       flex-wrap: wrap;
     }
 
     .viz-tab-btn {
-      padding: 8px 16px;
-      background: var(--slate-100);
-      border: 1px solid var(--slate-200);
+      padding: 9px 18px;
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid var(--border-subtle);
       border-radius: var(--radius-md);
       font-size: 13px;
       font-weight: 600;
-      color: var(--slate-700);
+      color: var(--text-muted);
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
       transition: all 0.2s;
     }
 
     .viz-tab-btn:hover {
-      background: white;
-      border-color: var(--primary-light);
-      color: var(--primary);
-    }
-
-    .viz-tab-btn.active {
-      background: var(--primary);
+      background: rgba(99, 102, 241, 0.15);
       border-color: var(--primary);
       color: white;
     }
 
+    .viz-tab-btn.active {
+      background: var(--primary-gradient);
+      border-color: transparent;
+      color: white;
+      box-shadow: 0 0 15px rgba(99, 102, 241, 0.4);
+    }
+
     .image-viewer {
       text-align: center;
-      background: var(--slate-50);
+      background: rgba(10, 14, 26, 0.85);
       border-radius: var(--radius-md);
-      padding: 16px;
-      border: 1px solid var(--slate-200);
+      padding: 20px;
+      border: 1px solid var(--border-subtle);
     }
 
     .image-viewer img {
       max-width: 100%;
       height: auto;
       border-radius: var(--radius-sm);
-      box-shadow: var(--shadow-sm);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.08);
     }
+
+    /* Outliers Medals */
+    .medal-pill {
+      font-size: 11px;
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: 9999px;
+      display: inline-block;
+      text-align: center;
+    }
+    .medal-1 { background: linear-gradient(135deg, #fbbf24, #d97706); color: #000; box-shadow: 0 0 10px rgba(251, 191, 36, 0.5); }
+    .medal-2 { background: linear-gradient(135deg, #e2e8f0, #94a3b8); color: #000; }
+    .medal-3 { background: linear-gradient(135deg, #f97316, #c2410c); color: #fff; }
 
     /* Footer */
     footer {
-      background: white;
-      border-top: 1px solid var(--slate-200);
-      padding: 40px 0;
-      margin-top: 40px;
+      background: rgba(10, 14, 26, 0.85);
+      border-top: 1px solid var(--border-subtle);
+      padding: 45px 0;
+      margin-top: 50px;
     }
 
     .footer-inner {
-      max-width: 1380px;
+      max-width: 1400px;
       margin: 0 auto;
-      padding: 0 20px;
+      padding: 0 24px;
       display: flex;
       justify-content: space-between;
-      gap: 32px;
+      gap: 36px;
       flex-wrap: wrap;
     }
 
     .ack-card {
-      background: var(--slate-50);
-      border: 1px solid var(--slate-200);
-      padding: 16px;
+      background: rgba(19, 27, 48, 0.6);
+      border: 1px solid var(--border-subtle);
+      padding: 18px 22px;
       border-radius: var(--radius-md);
       font-size: 13px;
-      color: var(--slate-600);
-      line-height: 1.6;
+      color: #94a3b8;
+      line-height: 1.65;
     }
 
     .ack-card a {
-      color: var(--primary);
+      color: var(--cyan);
       text-decoration: none;
       font-weight: 600;
     }
 
     .ack-card a:hover {
       text-decoration: underline;
+      color: #38bdf8;
     }
   </style>
 </head>
@@ -820,11 +943,11 @@
           <i class="fa-solid fa-chevron-right" style="font-size: 10px;"></i>
           <a href="#">Regression Analysis</a>
           <i class="fa-solid fa-chevron-right" style="font-size: 10px;"></i>
-          <span style="color: var(--slate-800); font-weight: 600;">Laptop Retail Price Feature Progression</span>
+          <span style="color: #cbd5e1; font-weight: 600;">Laptop Retail Price Feature Progression</span>
         </div>
         <div class="header-title-group">
           <h1>
-            <i class="fa-solid fa-laptop" style="color: var(--primary);"></i>
+            <i class="fa-solid fa-laptop-code" style="color: #818cf8; filter: drop-shadow(0 0 10px rgba(99, 102, 241, 0.5));"></i>
             Laptop Price Multiple Linear Regression Explorer
             <span class="brand-badge">CRISP-DM</span>
           </h1>
@@ -832,11 +955,11 @@
       </div>
       <div class="header-actions">
         <a href="https://github.com/charleslu1996/HW2_Laptop-Price-Web" target="_blank" class="ref-btn">
-          <i class="fa-brands fa-github"></i>
+          <i class="fa-brands fa-github" style="color: #a5b4fc;"></i>
           GitHub Repository
         </a>
         <a href="https://statsunlock.com/multiple-linear-regression-calculator/" target="_blank" class="ref-btn">
-          <i class="fa-solid fa-arrow-up-right-from-square"></i>
+          <i class="fa-solid fa-arrow-up-right-from-square" style="color: #38bdf8;"></i>
           Style Ref: StatsUnlock
         </a>
       </div>
@@ -849,13 +972,13 @@
     <div class="hero-card">
       <h2>Feature Selection & Parsimony Analysis</h2>
       <p>
-        Compare 5 Machine Learning Feature Selection Algorithms (<strong>Lasso</strong>, <strong>Forward SFS</strong>, <strong>RFE</strong>, <strong>ElasticNet</strong>, <strong>Exhaustive Search</strong>) against Baseline Multiple Linear Regression on the Kaggle Laptop Price dataset (1,303 laptops). Explore the bias-variance tradeoff across feature counts $k=1 \dots 6$, pinpointing the <strong>5-feature optimal sweet spot</strong> and testing for parsimony.
+        Compare 5 Machine Learning Feature Selection Algorithms (<strong>Lasso</strong>, <strong>Forward SFS</strong>, <strong>RFE</strong>, <strong>ElasticNet</strong>, <strong>Exhaustive Search</strong>) against Baseline Multiple Linear Regression on the Kaggle Laptop Price dataset (1,303 laptops). Explore the bias-variance tradeoff across feature counts $k=1 \dots 6$, pinpointing the <strong>5-feature optimal sweet spot</strong> and verifying parsimonious model design.
       </p>
       <div class="hero-tags">
-        <span class="hero-pill"><i class="fa-solid fa-database"></i> 1,303 Laptops Kaggle Dataset</span>
-        <span class="hero-pill"><i class="fa-solid fa-bolt"></i> 5 Selection Methods</span>
+        <span class="hero-pill"><i class="fa-solid fa-database" style="color: #38bdf8;"></i> 1,303 Laptops Kaggle Dataset</span>
+        <span class="hero-pill"><i class="fa-solid fa-bolt" style="color: #fbbf24;"></i> 5 Selection Methods</span>
         <span class="hero-pill"><i class="fa-solid fa-star" style="color: #34d399;"></i> Global Sweet Spot: k=5 (₹16,350.20 RMSE)</span>
-        <span class="hero-pill"><i class="fa-solid fa-circle-check" style="color: #60a5fa;"></i> Top Predictors: Ram + SSD + Core i7 + Nvidia + PPI</span>
+        <span class="hero-pill"><i class="fa-solid fa-circle-check" style="color: #c084fc;"></i> Top Predictors: Ram + SSD + Core i7 + Nvidia + PPI</span>
       </div>
     </div>
 
@@ -864,31 +987,31 @@
       <span class="control-label"><i class="fa-solid fa-sliders"></i> 1. Select Feature Selection Algorithm</span>
       <div class="tabs-pills" id="algoTabs">
         <button class="tab-btn active" data-algo="Lasso">
-          <i class="fa-solid fa-filter"></i> Lasso (L1 Ranking)
-          <span class="badge-pill">Matches Benchmark</span>
+          <i class="fa-solid fa-filter" style="color: #818cf8;"></i> Lasso (L1 Ranking)
+          <span class="badge-pill">Benchmark</span>
         </button>
         <button class="tab-btn" data-algo="Forward SFS">
-          <i class="fa-solid fa-arrow-trend-up"></i> Forward SFS
+          <i class="fa-solid fa-arrow-trend-up" style="color: #fbbf24;"></i> Forward SFS
           <span class="badge-pill">Greedy</span>
         </button>
         <button class="tab-btn" data-algo="RFE">
-          <i class="fa-solid fa-scissors"></i> RFE
+          <i class="fa-solid fa-scissors" style="color: #34d399;"></i> RFE
           <span class="badge-pill">Backward</span>
         </button>
         <button class="tab-btn" data-algo="ElasticNet">
-          <i class="fa-solid fa-diagram-project"></i> ElasticNet
+          <i class="fa-solid fa-diagram-project" style="color: #fb7185;"></i> ElasticNet
           <span class="badge-pill">L1 + L2</span>
         </button>
         <button class="tab-btn" data-algo="Exhaustive">
-          <i class="fa-solid fa-magnifying-glass-chart"></i> Exhaustive Search
+          <i class="fa-solid fa-magnifying-glass-chart" style="color: #c084fc;"></i> Exhaustive Search
           <span class="badge-pill">Best Subset</span>
         </button>
-        <button class="tab-btn" data-algo="ALL" style="border-left: 2px solid var(--primary);">
-          <i class="fa-solid fa-layer-group"></i> 📊 Compare All 5 Methods
+        <button class="tab-btn" data-algo="ALL" style="border: 1.5px solid var(--primary); background: rgba(99, 102, 241, 0.15);">
+          <i class="fa-solid fa-layer-group" style="color: #38bdf8;"></i> 📊 Compare All 5 Methods
         </button>
       </div>
 
-      <span class="control-label" style="margin-top: 12px;"><i class="fa-solid fa-list-ol"></i> 2. Number of Features (k = 1 to 6)</span>
+      <span class="control-label" style="margin-top: 14px;"><i class="fa-solid fa-list-ol"></i> 2. Number of Features (k = 1 to 6)</span>
       <div class="k-selector-group" id="kSelectorGroup">
         <button class="k-btn" data-k="1">k = 1 <span style="font-weight: 400; font-size: 11px;">(Ram)</span></button>
         <button class="k-btn" data-k="2">k = 2 <span style="font-size: 11px;">(+ SSD)</span></button>
@@ -899,76 +1022,81 @@
       </div>
     </div>
 
-    <!-- Metrics Ribbon -->
+    <!-- Metrics Ribbon (5 Colorful KPI Cards) -->
     <div class="metrics-grid" id="metricsGrid">
-      <div class="metric-card sweet">
+      <div class="metric-card card-cyan">
         <div class="metric-title">
           <span>Test RMSE</span>
-          <span class="badge-tag badge-green" id="rmseBadge"><i class="fa-solid fa-award"></i> Optimal</span>
+          <span class="badge-tag badge-blue" id="rmseBadge"><i class="fa-solid fa-award"></i> Optimal</span>
         </div>
         <div class="metric-val" id="valRMSE">₹16,350.20</div>
         <div class="metric-note">
+          <i class="fa-solid fa-arrow-down" style="color: #38bdf8;"></i>
           <span>Lower is better (Root Mean Squared Error)</span>
         </div>
       </div>
 
-      <div class="metric-card sweet">
+      <div class="metric-card card-emerald">
         <div class="metric-title">
           <span>R² Score</span>
-          <span class="badge-tag badge-blue" id="r2Badge"><i class="fa-solid fa-circle-check"></i> 78.3% Fit</span>
+          <span class="badge-tag badge-green" id="r2Badge"><i class="fa-solid fa-circle-check"></i> 78.3% Fit</span>
         </div>
         <div class="metric-val" id="valR2">0.7834</div>
         <div class="metric-note">
+          <i class="fa-solid fa-chart-line" style="color: #34d399;"></i>
           <span>Explains 78.34% of laptop retail price variance</span>
         </div>
       </div>
 
-      <div class="metric-card">
+      <div class="metric-card card-purple">
         <div class="metric-title">
           <span>Adjusted R²</span>
-          <i class="fa-solid fa-scale-balanced" style="color: var(--slate-400);"></i>
+          <i class="fa-solid fa-scale-balanced" style="color: #c084fc;"></i>
         </div>
         <div class="metric-val" id="valAdjR2">0.7798</div>
         <div class="metric-note">
+          <i class="fa-solid fa-shield-halved" style="color: #c084fc;"></i>
           <span>Penalizes redundant parameters</span>
         </div>
       </div>
 
-      <div class="metric-card">
+      <div class="metric-card card-amber">
         <div class="metric-title">
           <span>Mean Absolute Error</span>
-          <i class="fa-solid fa-calculator" style="color: var(--slate-400);"></i>
+          <i class="fa-solid fa-calculator" style="color: #fbbf24;"></i>
         </div>
         <div class="metric-val" id="valMAE">₹10,650.30</div>
         <div class="metric-note">
+          <i class="fa-solid fa-coins" style="color: #fbbf24;"></i>
           <span>Average prediction error (~128 USD)</span>
         </div>
       </div>
 
-      <div class="metric-card">
+      <div class="metric-card card-rose">
         <div class="metric-title">
           <span>F-Statistic</span>
-          <span class="badge-tag badge-green">p &lt; 0.0001</span>
+          <span class="badge-tag" style="background: rgba(244, 63, 94, 0.18); color: #fb7185; border: 1px solid rgba(244, 63, 94, 0.35);">p &lt; 0.0001</span>
         </div>
         <div class="metric-val" id="valFStat">184.7</div>
         <div class="metric-note">
+          <i class="fa-solid fa-bolt" style="color: #fb7185;"></i>
           <span>Model is highly statistically significant</span>
         </div>
       </div>
     </div>
 
     <!-- Active Features Chips & Parsimony Notice -->
-    <div class="card" style="margin-bottom: 24px;">
+    <div class="card" style="margin-bottom: 26px;">
       <div class="card-header">
         <div class="card-title-group">
-          <h3><i class="fa-solid fa-tags" style="color: var(--primary);"></i> Active Predictors in Current Model</h3>
-          <div class="card-subtitle">Showing active feature subset for selected k (<span id="featuresCount">5</span> features).</div>
+          <h3><i class="fa-solid fa-tags" style="color: #818cf8;"></i> Active Predictors in Current Model</h3>
+          <div class="card-subtitle">Showing active feature subset for selected k (<span id="featuresCount" style="color: #38bdf8; font-weight:700;">5</span> features).</div>
         </div>
         <span class="badge-tag badge-green" id="parsimonyNotice">
           <i class="fa-solid fa-star"></i> Occam's Razor: 5 features yield the optimal balance between accuracy & parsimony.
         </span>
       </div>
-      <div id="featuresListChips" style="display: flex; flex-wrap: wrap; gap: 8px;">
+      <div id="featuresListChips" style="display: flex; flex-wrap: wrap; gap: 10px;">
         <!-- Dynamically injected -->
       </div>
     </div>
@@ -977,15 +1105,15 @@
     <div class="equation-card">
       <div class="equation-title"><i class="fa-solid fa-square-root-variable"></i> Multiple Linear Regression Equation (Ordinary Least Squares)</div>
       <div class="equation-formula" id="equationBox">
-        <strong>Price (₹)</strong> = <span class="eq-intercept">-18,740.50</span> + 3842.50 · <span class="eq-var">(Ram)</span> + 26.85 · <span class="eq-var">(SSD)</span> + 19450.80 · <span class="eq-var">(Core i7)</span> + 15320.40 · <span class="eq-var">(Nvidia)</span> + 128.60 · <span class="eq-var">(Display PPI)</span>
+        <span class="eq-target">Price (₹)</span> = <span class="eq-intercept">-18,740.50</span> <span class="eq-pos">+</span> 3842.50 · <span class="eq-var">(Ram)</span> <span class="eq-pos">+</span> 26.85 · <span class="eq-var">(SSD)</span> <span class="eq-pos">+</span> 19450.80 · <span class="eq-var">(Core i7)</span> <span class="eq-pos">+</span> 15320.40 · <span class="eq-var">(Nvidia)</span> <span class="eq-pos">+</span> 128.60 · <span class="eq-var">(Display PPI)</span>
       </div>
     </div>
 
     <!-- Coefficients & Statistical Inference Table -->
-    <div class="card" style="margin-bottom: 24px;">
+    <div class="card" style="margin-bottom: 26px;">
       <div class="card-header">
         <div class="card-title-group">
-          <h3><i class="fa-solid fa-table" style="color: var(--primary);"></i> Ordinary Least Squares (OLS) Coefficients & Significance</h3>
+          <h3><i class="fa-solid fa-table" style="color: #38bdf8;"></i> Ordinary Least Squares (OLS) Coefficients & Significance</h3>
           <div class="card-subtitle">Statistical parameter estimates, standard errors, t-statistics, p-values, 95% confidence intervals, and VIF multicollinearity tests.</div>
         </div>
       </div>
@@ -1014,7 +1142,7 @@
       <div class="card">
         <div class="card-header">
           <div class="card-title-group">
-            <h3><i class="fa-solid fa-chart-line" style="color: var(--accent-blue);"></i> RMSE by Number of Features</h3>
+            <h3><i class="fa-solid fa-chart-line" style="color: #38bdf8;"></i> RMSE by Number of Features</h3>
             <div class="card-subtitle">Test RMSE progression (Lower is Better). Pinpoints the optimal sweet spot.</div>
           </div>
         </div>
@@ -1026,7 +1154,7 @@
       <div class="card">
         <div class="card-header">
           <div class="card-title-group">
-            <h3><i class="fa-solid fa-chart-line" style="color: var(--accent-emerald);"></i> R-squared by Number of Features</h3>
+            <h3><i class="fa-solid fa-chart-line" style="color: #34d399;"></i> R-squared by Number of Features</h3>
             <div class="card-subtitle">Proportion of variance explained (Higher is Better).</div>
           </div>
         </div>
@@ -1037,11 +1165,11 @@
     </div>
 
     <!-- Interactive Hardware Spec Valuation Calculator -->
-    <div class="card" style="margin-bottom: 24px;">
+    <div class="card" style="margin-bottom: 26px;">
       <div class="card-header">
         <div class="card-title-group">
-          <h3><i class="fa-solid fa-calculator" style="color: var(--primary);"></i> Interactive Laptop Hardware Valuation Calculator</h3>
-          <div class="card-subtitle">Adjust real-time hardware specifications to estimate retail market valuation using the active regression weights.</div>
+          <h3><i class="fa-solid fa-calculator" style="color: #fbbf24;"></i> Interactive Laptop Hardware Valuation Calculator</h3>
+          <div class="card-subtitle">Adjust real-time hardware specifications to estimate retail market valuation using active regression weights.</div>
         </div>
       </div>
 
@@ -1053,7 +1181,7 @@
             <div class="input-group">
               <div class="input-label-row">
                 <span>RAM (GB)</span>
-                <span id="labelRam" style="color: var(--primary); font-family: 'Fira Code', monospace;">16 GB</span>
+                <span id="labelRam" style="color: #818cf8; font-family: 'Fira Code', monospace; font-weight:700;">16 GB</span>
               </div>
               <input type="number" id="numRam" class="input-field" value="16" min="4" max="64" step="4">
               <input type="range" id="rangeRam" class="range-slider" value="16" min="4" max="64" step="4">
@@ -1063,7 +1191,7 @@
             <div class="input-group">
               <div class="input-label-row">
                 <span>SSD Storage (GB)</span>
-                <span id="labelSSD" style="color: var(--primary); font-family: 'Fira Code', monospace;">512 GB</span>
+                <span id="labelSSD" style="color: #38bdf8; font-family: 'Fira Code', monospace; font-weight:700;">512 GB</span>
               </div>
               <input type="number" id="numSSD" class="input-field" value="512" min="0" max="2048" step="128">
               <input type="range" id="rangeSSD" class="range-slider" value="512" min="0" max="2048" step="128">
@@ -1074,7 +1202,7 @@
             <!-- CPU Tier -->
             <div class="input-group">
               <div class="input-label-row">
-                <span>CPU Tier</span>
+                <span>CPU Compute Tier</span>
               </div>
               <select id="selectCPU" class="input-field">
                 <option value="i7" selected>Intel Core i7 (High Performance)</option>
@@ -1088,7 +1216,7 @@
             <!-- GPU Brand -->
             <div class="input-group">
               <div class="input-label-row">
-                <span>GPU Brand</span>
+                <span>GPU Graphics Class</span>
               </div>
               <select id="selectGPU" class="input-field">
                 <option value="nvidia" selected>Nvidia Dedicated (GeForce / RTX)</option>
@@ -1103,7 +1231,7 @@
             <div class="input-group">
               <div class="input-label-row">
                 <span>Screen Size (Inches)</span>
-                <span id="labelInches" style="color: var(--primary); font-family: 'Fira Code', monospace;">15.6"</span>
+                <span id="labelInches" style="color: #c084fc; font-family: 'Fira Code', monospace; font-weight:700;">15.6"</span>
               </div>
               <input type="number" id="numInches" class="input-field" value="15.6" min="11.6" max="17.3" step="0.1">
               <input type="range" id="rangeInches" class="range-slider" value="15.6" min="11.6" max="17.3" step="0.1">
@@ -1112,7 +1240,7 @@
             <div class="input-group">
               <div class="input-label-row">
                 <span>Resolution (Pixel Density)</span>
-                <span id="labelPPI" style="color: var(--accent-emerald); font-family: 'Fira Code', monospace; font-weight:700;">141.2 PPI</span>
+                <span id="labelPPI" style="color: #34d399; font-family: 'Fira Code', monospace; font-weight:700;">141.2 PPI</span>
               </div>
               <select id="selectResolution" class="input-field">
                 <option value="1920x1080" selected>Full HD (1920 x 1080)</option>
@@ -1144,34 +1272,33 @@
             <div class="input-group">
               <div class="input-label-row">
                 <span>Weight (kg)</span>
-                <span id="labelWeight" style="color: var(--primary); font-family: 'Fira Code', monospace;">1.85 kg</span>
+                <span id="labelWeight" style="color: #fb7185; font-family: 'Fira Code', monospace; font-weight:700;">1.85 kg</span>
               </div>
               <input type="number" id="numWeight" class="input-field" value="1.85" min="0.8" max="4.5" step="0.05">
               <input type="range" id="rangeWeight" class="range-slider" value="1.85" min="0.8" max="4.5" step="0.05">
             </div>
           </div>
 
-          <div style="display: flex; gap: 20px; margin-top: 6px;">
-            <label style="display: flex; align-items: center; gap: 8px; font-size: 13.5px; cursor: pointer; color: var(--slate-700);">
-              <input type="checkbox" id="checkTouch" style="accent-color: var(--primary); width: 16px; height: 16px;">
-              Touchscreen
+          <div style="display: flex; gap: 24px; margin-top: 10px;">
+            <label style="display: flex; align-items: center; gap: 8px; font-size: 13.5px; cursor: pointer; color: #cbd5e1;">
+              <input type="checkbox" id="checkTouch" style="accent-color: var(--primary); width: 17px; height: 17px;">
+              Touchscreen Digitizer
             </label>
-            <label style="display: flex; align-items: center; gap: 8px; font-size: 13.5px; cursor: pointer; color: var(--slate-700);">
-              <input type="checkbox" id="checkIPS" checked style="accent-color: var(--primary); width: 16px; height: 16px;">
-              IPS Panel
+            <label style="display: flex; align-items: center; gap: 8px; font-size: 13.5px; cursor: pointer; color: #cbd5e1;">
+              <input type="checkbox" id="checkIPS" checked style="accent-color: var(--cyan); width: 17px; height: 17px;">
+              IPS Wide-Viewing Angle Panel
             </label>
           </div>
         </div>
 
         <!-- Valuation Output Box -->
         <div class="prediction-output-box">
-          <div class="pred-label">Predicted Laptop Retail Price</div>
+          <div class="pred-label"><i class="fa-solid fa-sparkles"></i> Predicted Laptop Retail Price</div>
           <div class="pred-value" id="predPriceOutput">₹86,500.00</div>
           
           <div class="pred-subvalues">
-            <span><i class="fa-solid fa-dollar-sign"></i> USD: <span id="usdPrice">$1,038.00</span></span>
-            <span style="opacity: 0.4;">|</span>
-            <span><i class="fa-solid fa-coins"></i> TWD: <span id="twdPrice">NT$ 33,216</span></span>
+            <span class="pred-badge"><i class="fa-solid fa-dollar-sign" style="color: #38bdf8;"></i> USD: <span id="usdPrice" style="color: #38bdf8; font-weight:700;">$1,038.00</span></span>
+            <span class="pred-badge"><i class="fa-solid fa-coins" style="color: #fbbf24;"></i> TWD: <span id="twdPrice" style="color: #fbbf24; font-weight:700;">NT$ 33,216</span></span>
           </div>
 
           <div class="pred-formula-note" id="predFormulaNote">
@@ -1182,53 +1309,53 @@
     </div>
 
     <!-- Diagnostic Visualizations (Matplotlib Plots) -->
-    <div class="card" style="margin-bottom: 24px;">
+    <div class="card" style="margin-bottom: 26px;">
       <div class="card-header">
         <div class="card-title-group">
-          <h3><i class="fa-solid fa-images" style="color: var(--primary);"></i> Python Diagnostic Visualizations</h3>
+          <h3><i class="fa-solid fa-images" style="color: #c084fc;"></i> Python Diagnostic Visualizations</h3>
           <div class="card-subtitle">High-resolution plots generated by CRISP-DM training and feature selection scripts.</div>
         </div>
       </div>
 
       <div class="viz-tabs-nav">
         <button class="viz-tab-btn active" onclick="switchVizTab('viz-5algos')">
-          <i class="fa-solid fa-layer-group"></i> All 5 Algorithms Progression
+          <i class="fa-solid fa-layer-group" style="color: #38bdf8;"></i> All 5 Algorithms Progression
         </button>
         <button class="viz-tab-btn" onclick="switchVizTab('viz-features')">
-          <i class="fa-solid fa-chart-line"></i> Feature Progression Curves (features_performance.png)
+          <i class="fa-solid fa-chart-line" style="color: #34d399;"></i> Feature Progression Curves (features_performance.png)
         </button>
         <button class="viz-tab-btn" onclick="switchVizTab('viz-actual')">
-          <i class="fa-solid fa-crosshairs"></i> Actual vs Predicted Residuals (actual_vs_predicted.png)
+          <i class="fa-solid fa-crosshairs" style="color: #fb7185;"></i> Actual vs Predicted Residuals (actual_vs_predicted.png)
         </button>
         <button class="viz-tab-btn" onclick="switchVizTab('viz-interactive')">
-          <i class="fa-solid fa-desktop"></i> Interactive Dashboard Preview (interactive_charts.png)
+          <i class="fa-solid fa-desktop" style="color: #818cf8;"></i> Interactive Dashboard Preview (interactive_charts.png)
         </button>
       </div>
 
       <div id="viz-5algos" class="viz-panel image-viewer" style="display: block;">
         <img src="all_5_algorithms_comparison_plot.png" alt="All 5 Algorithms Comparison">
-        <p style="margin-top: 10px; font-size: 12.5px; color: var(--slate-500);">
+        <p style="margin-top: 12px; font-size: 13px; color: var(--text-muted);">
           Cross-algorithm validation comparing Lasso, Forward SFS, RFE, ElasticNet, and Exhaustive Search across $k=1 \dots 6$.
         </p>
       </div>
 
       <div id="viz-features" class="viz-panel image-viewer" style="display: none;">
         <img src="features_performance.png" alt="Features Performance Progression">
-        <p style="margin-top: 10px; font-size: 12.5px; color: var(--slate-500);">
+        <p style="margin-top: 12px; font-size: 13px; color: var(--text-muted);">
           Dual-panel plot showing RMSE minimization and R-squared progression by number of features.
         </p>
       </div>
 
       <div id="viz-actual" class="viz-panel image-viewer" style="display: none;">
         <img src="actual_vs_predicted.png" alt="Actual vs Predicted Prices">
-        <p style="margin-top: 10px; font-size: 12.5px; color: var(--slate-500);">
+        <p style="margin-top: 12px; font-size: 13px; color: var(--text-muted);">
           Test set scatter plot comparing actual retail prices against predicted prices along the ideal diagonal $y = x$.
         </p>
       </div>
 
       <div id="viz-interactive" class="viz-panel image-viewer" style="display: none;">
         <img src="interactive_charts.png" alt="Interactive Charts Preview">
-        <p style="margin-top: 10px; font-size: 12.5px; color: var(--slate-500);">
+        <p style="margin-top: 12px; font-size: 13px; color: var(--text-muted);">
           Chart.js interactive frontend canvas rendering as captured from the live application.
         </p>
       </div>
@@ -1238,7 +1365,7 @@
     <div class="card">
       <div class="card-header">
         <div class="card-title-group">
-          <h3><i class="fa-solid fa-magnifying-glass" style="color: var(--accent-amber);"></i> Test Set Residuals & Outliers Diagnostic</h3>
+          <h3><i class="fa-solid fa-magnifying-glass" style="color: #fbbf24;"></i> Test Set Residuals & Outliers Diagnostic</h3>
           <div class="card-subtitle">Top absolute residuals on the out-of-sample laptop test set.</div>
         </div>
         <span class="badge-tag badge-blue"><i class="fa-solid fa-filter"></i> Sorted by |Residual|</span>
@@ -1270,16 +1397,16 @@
   <footer>
     <div class="footer-inner">
       <div style="max-width: 650px;">
-        <h4 style="font-size: 16px; margin-bottom: 8px; color: var(--slate-900);">
-          <i class="fa-solid fa-laptop-code"></i> Laptop Price Multiple Linear Regression Project
+        <h4 style="font-size: 16px; margin-bottom: 8px; color: white;">
+          <i class="fa-solid fa-laptop-code" style="color: #818cf8;"></i> Laptop Price Multiple Linear Regression Project
         </h4>
-        <p style="line-height: 1.6; font-size: 13px;">
+        <p style="line-height: 1.65; font-size: 13px; color: var(--text-muted);">
           Developed for multiple linear regression model selection, parsimony validation, and statistical inference following CRISP-DM methodology. Built with pure Vanilla HTML, CSS, JavaScript, and Chart.js.
         </p>
       </div>
 
       <div style="max-width: 550px;">
-        <h4 style="font-size: 14px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--slate-400); margin-bottom: 8px;">
+        <h4 style="font-size: 13px; text-transform: uppercase; letter-spacing: 0.08em; color: #818cf8; margin-bottom: 8px;">
           References & Acknowledgments
         </h4>
         <div class="ack-card">
@@ -1300,10 +1427,10 @@
     let r2ChartInstance = null;
 
     const ALGO_COLORS = {
-      'Lasso': '#4f46e5',
+      'Lasso': '#6366f1',
       'Forward SFS': '#f59e0b',
       'RFE': '#10b981',
-      'ElasticNet': '#ef4444',
+      'ElasticNet': '#f43f5e',
       'Exhaustive': '#a855f7'
     };
 
@@ -1425,7 +1552,7 @@
       data.features.forEach(feat => {
         const chip = document.createElement('span');
         chip.className = 'feature-chip';
-        chip.textContent = feat;
+        chip.innerHTML = `<i class="fa-solid fa-circle-check" style="color: #818cf8; font-size:11px;"></i> ${feat}`;
         chipsContainer.appendChild(chip);
       });
 
@@ -1474,7 +1601,7 @@
         parts.push(`${sign} ${absVal} · <span class="eq-var">(${c.feature})</span>`);
       });
 
-      box.innerHTML = `<strong>Price (₹)</strong> = ${parts.join(' ')}`;
+      box.innerHTML = `<span class="eq-target">Price (₹)</span> = ${parts.join(' ')}`;
     }
 
     function updateCoefficientsTable(coefficients) {
@@ -1498,12 +1625,12 @@
         }
 
         tr.innerHTML = `
-          <td><strong>${c.feature}</strong></td>
-          <td style="font-family: 'Fira Code', monospace; font-weight: 600;">${c.coef >= 0 ? '+' : ''}${c.coef.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
-          <td>${c.stderr.toFixed(2)}</td>
-          <td>${c.tstat.toFixed(2)}</td>
+          <td><strong style="color: white;">${c.feature}</strong></td>
+          <td style="font-family: 'Fira Code', monospace; font-weight: 700; color: ${c.coef >= 0 ? '#34d399' : '#fb7185'};">${c.coef >= 0 ? '+' : ''}${c.coef.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+          <td style="font-family: 'Fira Code', monospace; color: #cbd5e1;">${c.stderr.toFixed(2)}</td>
+          <td style="font-family: 'Fira Code', monospace; color: #cbd5e1;">${c.tstat.toFixed(2)}</td>
           <td>${pBadge}</td>
-          <td style="font-size: 12px; color: var(--slate-600);">[${c.ci_lower.toFixed(2)}, ${c.ci_upper.toFixed(2)}]</td>
+          <td style="font-size: 12px; color: #94a3b8; font-family: 'Fira Code', monospace;">[${c.ci_lower.toFixed(2)}, ${c.ci_upper.toFixed(2)}]</td>
           <td>${vifDisplay}</td>
         `;
         tbody.appendChild(tr);
@@ -1521,14 +1648,19 @@
           ? `<span class="badge-tag badge-amber"><span class="status-dot dot-amber"></span> High Residual</span>`
           : `<span class="badge-tag badge-green"><span class="status-dot dot-green"></span> In Range</span>`;
 
+        let medalHtml = `<span style="font-weight:700; color:#94a3b8;">#${o.rank}</span>`;
+        if (o.rank === 1) medalHtml = `<span class="medal-pill medal-1">🥇 #1</span>`;
+        else if (o.rank === 2) medalHtml = `<span class="medal-pill medal-2">🥈 #2</span>`;
+        else if (o.rank === 3) medalHtml = `<span class="medal-pill medal-3">🥉 #3</span>`;
+
         tr.innerHTML = `
-          <td style="font-weight: 700;">#${o.rank}</td>
-          <td>Laptop #${o.index}</td>
+          <td>${medalHtml}</td>
+          <td style="color: white; font-weight:600;">Laptop #${o.index}</td>
           <td style="font-family: 'Fira Code', monospace;">₹${o.actual.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
-          <td style="font-family: 'Fira Code', monospace;">₹${o.predicted.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
-          <td style="color: ${o.residual >= 0 ? '#059669' : '#dc2626'}; font-weight: 600;">${o.residual >= 0 ? '+' : ''}₹${o.residual.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
-          <td>₹${o.abs_error.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
-          <td>${o.pct_error.toFixed(2)}%</td>
+          <td style="font-family: 'Fira Code', monospace; color: #38bdf8;">₹${o.predicted.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+          <td style="color: ${o.residual >= 0 ? '#34d399' : '#fb7185'}; font-weight: 700; font-family: 'Fira Code', monospace;">${o.residual >= 0 ? '+' : ''}₹${o.residual.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+          <td style="font-family: 'Fira Code', monospace;">₹${o.abs_error.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+          <td style="font-family: 'Fira Code', monospace; font-weight:600;">${o.pct_error.toFixed(2)}%</td>
           <td>${statusBadge}</td>
         `;
         tbody.appendChild(tr);
@@ -1581,7 +1713,6 @@
         }
       });
 
-      // Ensure positive floor
       pred = Math.max(12000, pred);
 
       const usd = (pred * 0.012).toFixed(2);
@@ -1590,10 +1721,10 @@
       document.getElementById('predPriceOutput').textContent = '₹' + pred.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
       document.getElementById('usdPrice').textContent = '$' + Number(usd).toLocaleString();
       document.getElementById('twdPrice').textContent = 'NT$ ' + twd.toLocaleString();
-      document.getElementById('predFormulaNote').innerHTML = `Active predictors (${data.features.length}): ${data.features.join(', ')}<br><span style="font-size: 11px; color: #cbd5e1;">(${usedFeatures.join(' | ')})</span>`;
+      document.getElementById('predFormulaNote').innerHTML = `<span style="color:#93c5fd; font-weight:700;">Active Predictors (${data.features.length}):</span> ${data.features.join(', ')}<br><span style="font-size: 11.5px; color: #a5b4fc;">(${usedFeatures.join(' | ')})</span>`;
     }
 
-    // Chart.js Setup
+    // Chart.js Setup with Dark Glowing Theme
     function initCharts() {
       const ctxRMSE = document.getElementById('rmseChart').getContext('2d');
       const ctxR2 = document.getElementById('r2Chart').getContext('2d');
@@ -1605,14 +1736,18 @@
           legend: {
             display: false,
             position: 'top',
-            labels: { boxWidth: 12, font: { family: 'Inter', size: 11 } }
+            labels: { boxWidth: 12, color: '#e2e8f0', font: { family: 'Inter', size: 12, weight: '600' } }
           },
           tooltip: {
-            backgroundColor: 'rgba(15, 23, 42, 0.92)',
-            titleFont: { family: 'Outfit', size: 13 },
+            backgroundColor: 'rgba(15, 23, 42, 0.95)',
+            titleColor: '#38bdf8',
+            bodyColor: '#f8fafc',
+            borderColor: 'rgba(99, 102, 241, 0.4)',
+            borderWidth: 1.5,
+            titleFont: { family: 'Outfit', size: 14, weight: '700' },
             bodyFont: { family: 'Inter', size: 12 },
-            padding: 12,
-            cornerRadius: 8,
+            padding: 14,
+            cornerRadius: 10,
             callbacks: {
               afterLabel: function(context) {
                 const k = context.dataIndex + 1;
@@ -1628,15 +1763,15 @@
             title: {
               display: true,
               text: 'Number of Features (k)',
-              font: { family: 'Inter', size: 12, weight: '600' },
-              color: '#64748b'
+              font: { family: 'Inter', size: 12.5, weight: '700' },
+              color: '#94a3b8'
             },
-            grid: { color: '#f1f5f9' },
-            ticks: { font: { family: 'Fira Code', size: 11 } }
+            grid: { color: 'rgba(255, 255, 255, 0.05)' },
+            ticks: { color: '#cbd5e1', font: { family: 'Fira Code', size: 11.5 } }
           },
           y: {
-            grid: { color: '#f1f5f9' },
-            ticks: { font: { family: 'Fira Code', size: 11 } }
+            grid: { color: 'rgba(255, 255, 255, 0.05)' },
+            ticks: { color: '#cbd5e1', font: { family: 'Fira Code', size: 11.5 } }
           }
         }
       };
@@ -1653,10 +1788,11 @@
               title: {
                 display: true,
                 text: 'RMSE (₹) - Lower is Better',
-                font: { family: 'Inter', size: 12, weight: '600' },
-                color: '#64748b'
+                font: { family: 'Inter', size: 12.5, weight: '700' },
+                color: '#38bdf8'
               },
               ticks: {
+                color: '#cbd5e1',
                 callback: function(val) { return '₹' + (val / 1000) + 'k'; }
               }
             }
@@ -1676,11 +1812,12 @@
               title: {
                 display: true,
                 text: 'R-squared - Higher is Better',
-                font: { family: 'Inter', size: 12, weight: '600' },
-                color: '#64748b'
+                font: { family: 'Inter', size: 12.5, weight: '700' },
+                color: '#34d399'
               },
               min: 0.50,
-              max: 0.85
+              max: 0.85,
+              ticks: { color: '#cbd5e1' }
             }
           }
         }
@@ -1704,10 +1841,11 @@
           data: window.MODEL_DATA[name].map(item => item.rmse),
           borderColor: ALGO_COLORS[name],
           backgroundColor: ALGO_COLORS[name],
-          borderWidth: 2,
-          pointRadius: 4,
-          pointHoverRadius: 6,
-          tension: 0.2
+          borderWidth: 2.5,
+          pointRadius: 5,
+          pointHoverRadius: 8,
+          pointBackgroundColor: ALGO_COLORS[name],
+          tension: 0.25
         }));
 
         r2ChartInstance.data.labels = labels;
@@ -1716,10 +1854,11 @@
           data: window.MODEL_DATA[name].map(item => item.r2),
           borderColor: ALGO_COLORS[name],
           backgroundColor: ALGO_COLORS[name],
-          borderWidth: 2,
-          pointRadius: 4,
-          pointHoverRadius: 6,
-          tension: 0.2
+          borderWidth: 2.5,
+          pointRadius: 5,
+          pointHoverRadius: 8,
+          pointBackgroundColor: ALGO_COLORS[name],
+          tension: 0.25
         }));
 
       } else {
@@ -1727,18 +1866,20 @@
         r2ChartInstance.options.plugins.legend.display = false;
 
         const algoData = window.MODEL_DATA[currentAlgo];
-        const color = ALGO_COLORS[currentAlgo] || '#4f46e5';
+        const color = ALGO_COLORS[currentAlgo] || '#38bdf8';
 
         rmseChartInstance.data.labels = labels;
         rmseChartInstance.data.datasets = [{
           label: currentAlgo,
           data: algoData.map(item => item.rmse),
-          borderColor: color,
-          backgroundColor: 'rgba(79, 70, 229, 0.08)',
+          borderColor: '#38bdf8',
+          backgroundColor: 'rgba(6, 182, 212, 0.12)',
           fill: true,
-          borderWidth: 3,
-          pointRadius: algoData.map((_, idx) => idx + 1 === currentK ? 7 : 4),
-          pointBackgroundColor: algoData.map((_, idx) => idx + 1 === currentK ? '#059669' : color),
+          borderWidth: 3.5,
+          pointRadius: algoData.map((_, idx) => idx + 1 === currentK ? 8 : 4.5),
+          pointBackgroundColor: algoData.map((_, idx) => idx + 1 === currentK ? '#34d399' : '#38bdf8'),
+          pointBorderColor: '#fff',
+          pointBorderWidth: 2,
           tension: 0.25
         }];
 
@@ -1746,12 +1887,14 @@
         r2ChartInstance.data.datasets = [{
           label: currentAlgo,
           data: algoData.map(item => item.r2),
-          borderColor: '#10b981',
-          backgroundColor: 'rgba(16, 185, 129, 0.08)',
+          borderColor: '#34d399',
+          backgroundColor: 'rgba(16, 185, 129, 0.12)',
           fill: true,
-          borderWidth: 3,
-          pointRadius: algoData.map((_, idx) => idx + 1 === currentK ? 7 : 4),
-          pointBackgroundColor: algoData.map((_, idx) => idx + 1 === currentK ? '#4f46e5' : '#10b981'),
+          borderWidth: 3.5,
+          pointRadius: algoData.map((_, idx) => idx + 1 === currentK ? 8 : 4.5),
+          pointBackgroundColor: algoData.map((_, idx) => idx + 1 === currentK ? '#818cf8' : '#34d399'),
+          pointBorderColor: '#fff',
+          pointBorderWidth: 2,
           tension: 0.25
         }];
       }
